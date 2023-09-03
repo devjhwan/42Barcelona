@@ -6,7 +6,7 @@
 #    By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/03 14:32:42 by junghwle          #+#    #+#              #
-#    Updated: 2023/08/19 14:19:52 by junghwle         ###   ########.fr        #
+#    Updated: 2023/09/03 21:37:25 by junghwle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,16 +19,17 @@ OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
 INCLUDE=-I.
-AR=ar rcs
 CC=cc
 CFLAGS=-Wall -Werror -Wextra
 DEPFLAGS=-MMD
 COMPILE.c=$(CC) $(DEPFLAGS) $(CFLAGS) $(INCLUDE) -c -o
+EXTRAFLAGS=
+LIBRARIES=
 
 all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJS) Makefile
-	$(AR) $@ $(OBJS)
+	$(CC) $(CFLAGS) $(EXTRAFLAGS) -o $@ $(OBJS) $(LIBRARIES)
 	echo "()COMPILING $@"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile 
@@ -39,7 +40,7 @@ $(OBJDIR): Makefile
 	mkdir -p $@
 
 clean:
-	rm -f $(OBJDIR)/*.o
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(NAME)
