@@ -6,7 +6,7 @@
 #    By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/03 14:32:42 by junghwle          #+#    #+#              #
-#    Updated: 2023/08/29 17:34:02 by junghwle         ###   ########.fr        #
+#    Updated: 2023/08/29 22:51:47 by junghwle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ DEPS=$(OBJS:.o=.d)
 
 INCLUDE=-I. -I./libft
 AR=ar rcs
-CC=cc
+CC=cc -fsanitize=leak
 CFLAGS=-Wall -Werror -Wextra
 DEPFLAGS=-MMD
 COMPILE.c=$(CC) $(DEPFLAGS) $(CFLAGS) $(INCLUDE) -c -o
@@ -30,7 +30,7 @@ all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libft
-	$(CC) $(FLAGS) -o $@ $(OBJS) libft/libft.a
+	$(CC) $(CFLAGS) -o $@ $(OBJS) libft/libft.a
 	echo "(PIPEX) COMPILING $@"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile

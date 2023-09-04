@@ -23,8 +23,6 @@ static void	ft_setnbr_base_rec(size_t nb, t_setnbr_pack p, int *i)
 {
 	if (nb >= p.blen)
 		ft_setnbr_base_rec(nb / p.blen, p, i);
-	if (nb < 0)
-		p.buff[(*i)++] = p.base[(nb % p.blen) * -1];
 	else
 		p.buff[(*i)++] = p.base[nb % p.blen];
 }
