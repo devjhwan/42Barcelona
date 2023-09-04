@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_map.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/03 19:23:15 by junghwle          #+#    #+#             */
-/*   Updated: 2023/09/03 21:31:55 by junghwle         ###   ########.fr       */
+/*   Created: 2023/09/04 17:54:01 by junghwle          #+#    #+#             */
+/*   Updated: 2023/09/04 18:45:52 by junghwle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef FDF_MAP_H
+# define FDF_MAP_H
 
+# include <fcntl.h>
 # include "libft.h"
-# include "mlx.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define GIGABYTE 1073741824
+# define MEGABYTE 1048576
+# define KILOBYTE 1024
 
-typedef struct	s_img
+typedef struct s_map
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-}				t_img;
-
-typedef struct	s_mlx
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_img	*img;
-	t_img	*tmp_img;
-}				t_mlx;
-
-void	free_mlx(t_mlx mlx);
+	int				row;
+	int				col;
+	int				**matrix;
+	unsigned int	**color;
+}	t_map;
 
 #endif

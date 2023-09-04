@@ -6,7 +6,7 @@
 /*   By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 19:21:00 by junghwle          #+#    #+#             */
-/*   Updated: 2023/09/03 21:32:28 by junghwle         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:46:30 by junghwle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static t_img	*init_img(void *mlx)
 	return (img);
 }
 
-/*
 static void	mlx_struct_init(t_mlx *mlx)
 {
 	ft_bzero(mlx, sizeof(t_mlx));
@@ -51,27 +50,27 @@ static void	mlx_struct_init(t_mlx *mlx)
 	mlx->tmp_img = init_img(mlx->mlx);
 	if (mlx->mlx_win == NULL || mlx->img == NULL || mlx->tmp_img == NULL)
 	{
-		free_mlx(mlx);
+		free_mlx(*mlx);
 		exit(EXIT_FAILURE);
 	}
 }
-*/
+
+static int	mlx_clear_function(t_mlx *mlx)
+{
+	free_mlx(*mlx);
+	exit(0);
+}
 
 int	main(void)
 {
 	t_mlx	mlx;
 
-	ft_bzero(&mlx, sizeof(t_mlx));
-	mlx.mlx = mlx_init();
-	if (mlx.mlx == NULL)
-		exit(EXIT_FAILURE);
-	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "junghwle's fdf");
-	mlx.img = init_img(mlx.mlx);
-	mlx.tmp_img = init_img(mlx.mlx);
-	if (mlx.mlx_win == NULL || mlx.img == NULL || mlx.tmp_img == NULL)
-	{
-		free_mlx(mlx);
-		exit(EXIT_FAILURE);
-	}
+	mlx_struct_init(&mlx);
+	mlx_hook(mlx.mlx_win, ON_KEYDOWN, KEY_PRESS, \
+			key_hook_function, &mlx);
+	mlx_hook(mlx.mlx_win, ON_MOUSEDOWN, BUTTON_PRESS, \
+			mouse_hook_function, &mlx);
+	mlx_hook(mlx.mlx_win, ON_DESTROY, NO_MASK, \
+			mlx_clear_function, &mlx);
 	mlx_loop(mlx.mlx);
 }

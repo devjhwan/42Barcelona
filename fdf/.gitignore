@@ -1,0 +1,9 @@
+fdf
+*/obj
+deprecated*
+a.out
+/obj
+*.a
+*.o
+/test_maps
+*.d

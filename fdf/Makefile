@@ -6,19 +6,19 @@
 #    By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/03 14:32:42 by junghwle          #+#    #+#              #
-#    Updated: 2023/09/03 21:32:51 by junghwle         ###   ########.fr        #
+#    Updated: 2023/09/04 18:46:45 by junghwle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=fdf
 
-SRCDIR=.
+SRCDIR=source
 OBJDIR=objs
-SRCS=fdf.c free_mlx.c
+SRCS=fdf.c free_mlx.c fdf_key_hook.c fdf_mouse_hook.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
-INCLUDE=-I. -Ilibft -Iminilibx_macos
+INCLUDE=-Iinclude -Ilibft -Iminilibx_macos
 CC=cc
 CFLAGS=-Wall -Werror -Wextra
 DEPFLAGS=-MMD
