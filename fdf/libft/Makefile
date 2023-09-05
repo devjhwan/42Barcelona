@@ -35,7 +35,7 @@ SRCS=ft_abs.c              ft_max.c              ft_putnbr_fd.c			\
 	 ft_lstnew.c           ft_putchar.c          ft_tolower.c			\
 	 ft_lstsize.c          ft_putchar_fd.c       ft_toupper.c			\
 	 ft_lstpopfirst.c	   ft_strcmp.c			 get_next_line.c		\
-	 get_next_line_utils.c
+	 get_next_line_utils.c ft_atoi_base.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 

@@ -14,7 +14,8 @@
 
 int	mouse_hook_function(int button, int x, int y, t_mlx *mlx)
 {
-	mlx = NULL;
+	if (mlx)
+		mlx = NULL;
 	ft_printf("button: %d\nx: %d\ny: %d\n", button, x, y);
 	ft_printf("\n");
 	return (0);

@@ -22,5 +22,11 @@ void	free_mlx(t_mlx mlx)
 			mlx_destroy_image(mlx.mlx, mlx.img->img);
 		if (mlx.tmp_img != NULL)
 			mlx_destroy_image(mlx.mlx, mlx.tmp_img->img);
+		if (mlx.map != NULL)
+		{
+			free_matrix2d(mlx.map->matrix);
+			free_matrix2d(mlx.map->color);
+			free(mlx.map);
+		}
 	}
 }

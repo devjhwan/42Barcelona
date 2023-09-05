@@ -28,4 +28,8 @@ typedef struct s_map
 	unsigned int	**color;
 }	t_map;
 
+t_map	*parse_fdf(char *fdf_file);
+void	*get_matrix2d(size_t row, size_t col, size_t size);
+void	free_matrix2d(void *matrix);
+
 #endif

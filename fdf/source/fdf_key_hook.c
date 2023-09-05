@@ -14,6 +14,7 @@
 
 static void	call_exit(int keycode, t_mlx *mlx)
 {
+	ft_printf("%d\n", keycode);
 	if (keycode == KEY_EXIT)
 	{
 		free_mlx(*mlx);

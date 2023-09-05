@@ -7,3 +7,6 @@ a.out
 *.o
 /test_maps
 *.d
+*/a.out
+source/test.sh
+/minilibx-linux

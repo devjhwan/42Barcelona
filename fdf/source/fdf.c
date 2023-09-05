@@ -39,7 +39,7 @@ static t_img	*init_img(void *mlx)
 	return (img);
 }
 
-static void	mlx_struct_init(t_mlx *mlx)
+static void	mlx_struct_init(t_mlx *mlx, char *fdf_file)
 {
 	ft_bzero(mlx, sizeof(t_mlx));
 	mlx->mlx = mlx_init();
@@ -48,7 +48,9 @@ static void	mlx_struct_init(t_mlx *mlx)
 	mlx->mlx_win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "junghwle's fdf");
 	mlx->img = init_img(mlx->mlx);
 	mlx->tmp_img = init_img(mlx->mlx);
-	if (mlx->mlx_win == NULL || mlx->img == NULL || mlx->tmp_img == NULL)
+	mlx->map = parse_fdf(fdf_file);
+	if (mlx->mlx_win == NULL || mlx->img == NULL || \
+		mlx->tmp_img == NULL || mlx->map == NULL)
 	{
 		free_mlx(*mlx);
 		exit(EXIT_FAILURE);
@@ -61,11 +63,13 @@ static int	mlx_clear_function(t_mlx *mlx)
 	exit(0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	mlx_struct_init(&mlx);
+	if (argc != 2)
+		return (0);
+	mlx_struct_init(&mlx, argv[1]);
 	mlx_hook(mlx.mlx_win, ON_KEYDOWN, KEY_PRESS, \
 			key_hook_function, &mlx);
 	mlx_hook(mlx.mlx_win, ON_MOUSEDOWN, BUTTON_PRESS, \

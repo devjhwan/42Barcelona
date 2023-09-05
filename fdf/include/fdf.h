@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "mlx.h"
 # include "fdf_hook.h"
+# include "fdf_map.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -35,6 +36,7 @@ typedef struct s_mlx
 	void	*mlx_win;
 	t_img	*img;
 	t_img	*tmp_img;
+	t_map	*map;
 }	t_mlx;
 
 void	free_mlx(t_mlx mlx);
