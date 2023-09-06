@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fdf_map.h"
 
 void	*get_matrix2d(size_t row, size_t col, size_t size)
 {

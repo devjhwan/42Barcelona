@@ -25,10 +25,10 @@ static t_img	*init_img(void *mlx)
 		free(img);
 		return (NULL);
 	}
-	img->addr = mlx_get_data_addr(			\
-					img->img,				\
-					&img->bits_per_pixel,	\
-					&img->size_line,		\
+	img->addr = mlx_get_data_addr(\
+					img->img, \
+					&img->bits_per_pixel, \
+					&img->size_line, \
 					&img->endian);
 	if (img->addr == NULL)
 	{

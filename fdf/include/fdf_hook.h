@@ -22,11 +22,11 @@
 # define ON_DESTROY 17
 
 /*KEY EVENT MASKS*/
-# define NO_MASK 0l
-# define KEY_PRESS 1l<<0
-# define KEY_RELEASE 1l<<1
-# define BUTTON_PRESS 1l<<2
-# define BUTTON_RELEASE 1l<<3
+# define NO_MASK 0
+# define KEY_PRESS 1
+# define KEY_RELEASE 2
+# define BUTTON_PRESS 4
+# define BUTTON_RELEASE 8
 
 /*KEY CODES*/
 # define KEY_Q 12

@@ -15,6 +15,7 @@
 
 # include <fcntl.h>
 # include "libft.h"
+#include "quaternion.h"
 
 # define GIGABYTE 1073741824
 # define MEGABYTE 1048576
@@ -28,8 +29,22 @@ typedef struct s_map
 	unsigned int	**color;
 }	t_map;
 
+typedef struct s_point2d
+{
+	int	x;
+	int	y;
+}	t_point2d;
+
+typedef struct s_point3d
+{
+	int	x;
+	int	y;
+	int	z;
+}	t_point2d;
+
 t_map	*parse_fdf(char *fdf_file);
 void	*get_matrix2d(size_t row, size_t col, size_t size);
 void	free_matrix2d(void *matrix);
+
 
 #endif

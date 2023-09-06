@@ -25,7 +25,7 @@ DEPFLAGS=-MMD
 COMPILE.c=$(CC) $(DEPFLAGS) $(CFLAGS) $(INCLUDE) -c -o
 
 EXTRA_FLAGS=-Lminilibx_macos -lmlx \
-		   	-framework OpenGl -framework AppKit
+		   	-framework OpenGl -framework AppKit -lm
 LIBRARIES=libft/libft.a minilibx_macos/libmlx.a
 EXTRA_FLAGS_LINUX=-Lminilibx-linux -lXext -lX11 -lm -lz
 LIBRARIES_LINUX=libft/libft.a minilibx-linux/libmlx.a
