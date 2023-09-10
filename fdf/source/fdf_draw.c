@@ -46,8 +46,8 @@ static void	draw_line(t_mlx *mlx, double p[2], double q[2], \
 
 static void	mlx_clear_img(t_img *img)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	char	*dst;
 
 	y = 0;
@@ -65,6 +65,30 @@ static void	mlx_clear_img(t_img *img)
 	}
 }
 
+void	select_point(t_mlx *mlx, t_map *map, int n)
+{
+	if (n + 3 < map->len - 1 && (n / 3) % map->col < map->col - 1)
+	{
+		draw_line(mlx, \
+			(double []){map->matrix[n] + map->transform.position[0], \
+						map->matrix[n + 1] + map->transform.position[1]}, \
+			(double []){map->matrix[n + 3] + map->transform.position[0], \
+						map->matrix[n + 4] + map->transform.position[1]}, \
+						map->color[n / 3]);
+	}
+	if (n + map->col * 3 < map->len - 1)
+	{
+		draw_line(mlx, \
+			(double []){map->matrix[n] + map->transform.position[0], \
+						map->matrix[n + 1] + map->transform.position[1]}, \
+			(double []){map->matrix[n + map->col * 3] + \
+						map->transform.position[0], \
+						map->matrix[n + map->col * 3 + 1] + \
+						map->transform.position[1]}, \
+						map->color[n / 3]);
+	}
+}
+
 void	draw_shape(t_mlx *mlx, t_map *map)
 {
 	int		n;
@@ -74,21 +98,7 @@ void	draw_shape(t_mlx *mlx, t_map *map)
 	n = 0;
 	while (n < map->len)
 	{
-		if (n + 3 < map->len - 1 && (n / 3) % map->col < map->col - 1)
-		{
-			draw_line(mlx, \
-				(double []){map->matrix[n] + map->transform.position[0], map->matrix[n + 1] + map->transform.position[1]}, \
-				(double []){map->matrix[n + 3] + map->transform.position[0], map->matrix[n + 4] + map->transform.position[1]}, \
-				map->color[n / 3]);
-		}
-		if (n + map->col * 3 < map->len - 1)
-		{
-			draw_line(mlx, \
-				(double []){map->matrix[n] + map->transform.position[0], map->matrix[n + 1] + map->transform.position[1]}, \
-				(double []){map->matrix[n + map->col * 3] + map->transform.position[0], \
-					map->matrix[n + map->col * 3 + 1] + map->transform.position[1]}, \
-				map->color[n / 3]);
-		}
+		select_point(mlx, map, n);
 		n += 3;
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->mlx_win, mlx->img->img, 0, 0);

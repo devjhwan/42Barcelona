@@ -89,6 +89,7 @@ int	main(int argc, char **argv)
 	//		mouse_up_function, (void *[]){&mlx, &map, &flag});
 	mlx_hook(mlx.mlx_win, ON_DESTROY, NO_MASK, \
 			clear_program, (void *[]){&mlx, &map, &flag});
-	mlx_loop_hook(mlx.mlx, render_frame_hook, (void *[]){&mlx, &map, &flag});
+	mlx_loop_hook(mlx.mlx, render_frame_hook, \
+			(void *[]){&mlx, &map, &flag});
 	mlx_loop(mlx.mlx);
 }

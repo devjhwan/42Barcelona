@@ -6,7 +6,7 @@
 /*   By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 15:44:40 by junghwle          #+#    #+#             */
-/*   Updated: 2023/09/10 15:44:42 by junghwle         ###   ########.fr       */
+/*   Updated: 2023/09/10 23:34:01 by junghwle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,35 @@ static void	init_position(t_map *map, t_transform *transform)
 
 static void	init_rotation(t_map *map, t_transform *transform)
 {
-	rotate_matrix(map, (double []){0, 0, 1}, M_PI / 4);
-	rotate_matrix(map, (double []){1, 0, 0}, atan(1 / sqrt(2)));
-	transform->rotate[0] = atan(1 / sqrt(2));
-	transform->rotate[1] = 0;
-	transform->rotate[2] = M_PI / 4;
+	t_quat	quaternion1;
+	t_quat	quaternion2;
+
+	quaternion_from_axisangle((double []){0, 0, 1}, \
+								M_PI / 4, &quaternion1);
+	quaternion_from_axisangle((double []){1, 0, 0}, \
+								asin(tan(M_PI / 6)), &quaternion2);
+	quaternion_multiply(&quaternion2, &quaternion1, &transform->quaternion);
+	rotate_matrix(map, &transform->quaternion);
 }
 
 static void	init_scale(t_map *map, t_transform *transform)
 {
-	double range_x;
-	double range_y;
+	double	range_x;
+	double	range_y;
+	double	range_z;
+	double	proyection_scale;
 
+	proyection_scale = sin(M_PI / 4) * tan(M_PI / 6);
+	scale_matrix(map, (double []){100, 100, 100});
 	range_x = get_range(map, 0);
 	range_y = get_range(map, 1);
-	scale_matrix(map, (double []){HEIGHT / range_x * 0.7, 
-								HEIGHT / range_y * 0.7, 1});
-	transform->scale[0] = 1;
-	transform->scale[1] = 1;
-	transform->scale[2] = 1;
+	range_z = get_range(map, 2);
+	transform->scale[0] = HEIGHT / range_x * proyection_scale * 1.5;
+	transform->scale[1] = HEIGHT / range_y * proyection_scale * 1.5;
+	transform->scale[2] = HEIGHT / range_z * 0.15;
+	scale_matrix(map, (double []){transform->scale[0], \
+									transform->scale[1], \
+									transform->scale[2]});
 }
 
 void	shape_initialize(t_map *map)
@@ -56,7 +66,7 @@ void	shape_initialize(t_map *map)
 	t_transform	*transform;
 
 	transform = &map->transform;
+	init_scale(map, transform);
 	init_rotation(map, transform);
 	init_position(map, transform);
-	init_scale(map, transform);
 }

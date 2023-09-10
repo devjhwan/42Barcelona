@@ -40,16 +40,14 @@ void	scale_matrix(t_map *map, double scale[3])
 	}
 }
 
-void	rotate_matrix(t_map *map, double axis[3], double angle)
+void	rotate_matrix(t_map *map, t_quat *quaternion)
 {
-	t_quat	quaternion;
 	int		n;
 
-	quaternion_from_axisangle(axis, angle, &quaternion);
 	n = 0;
 	while (n < map->len)
 	{
-		quaternion_rotate(&quaternion, &map->matrix[n]);
+		quaternion_rotate(quaternion, &map->matrix[n]);
 		n += 3;
 	}
 }

@@ -49,5 +49,7 @@ double	get_range(t_map *map, int axis)
 			max = map->matrix[n];
 		n += 3;
 	}
+	if (max - min < 0.001)
+		return (1);
 	return (max - min);
 }

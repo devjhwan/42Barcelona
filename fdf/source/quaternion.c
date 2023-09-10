@@ -72,27 +72,3 @@ void	quaternion_conjugate(t_quat *q, t_quat *output)
 		output->k = -q->k;
 	}
 }
-
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	double	axis[3];
-	double	angle;
-	t_quat	quaternion;
-	double	point[3];
-	double	point2[3];
-
-	axis[0] = 0;
-	axis[1] = 0;
-	axis[2] = 1;
-	angle = M_PI / 2;
-	quaternion_from_axisangle(axis, angle, &quaternion);
-	printf("%.3f %.3f %.3f %.3f\n", quaternion.w, quaternion.i, quaternion.j, quaternion.k);
-	point[0] = 10;
-	point[1] = 0;
-	point[2] = 0;
-	quaternion_rotate(&quaternion, point, point2);
-	printf("%.3f %.3f %.3f\n", point2[0], point2[1], point2[2]);
-}*/

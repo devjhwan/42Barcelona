@@ -45,7 +45,7 @@ static void	call_exit(int keycode, void *fdf_pack[3])
 
 int	key_press_hook(int keycode, void *fdf_pack[3])
 {
-	t_fdf_flag *flag;
+	t_fdf_flag	*flag;
 
 	flag = (t_fdf_flag *)fdf_pack[2];
 	call_exit(keycode, fdf_pack);

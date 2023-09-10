@@ -14,7 +14,7 @@
 # define QUATERNION_H
 
 # include <math.h>
-# include "fdf_map.h"
+# include <stdlib.h>
 
 # define QUATERNION_EPS 0.0001
 

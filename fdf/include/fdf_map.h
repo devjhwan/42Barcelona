@@ -29,8 +29,8 @@
 typedef struct s_transform
 {
 	double	position[3];
-	double	rotate[3];
 	double	scale[3];
+	t_quat	quaternion;
 }	t_transform;
 
 typedef struct s_map
@@ -47,7 +47,7 @@ void	*map_initialize(t_map *map, char *fdf_filename);
 void	free_map(t_map *map);
 void	translate_matrix(t_map *map, double position[3]);
 void	scale_matrix(t_map *map, double scale[3]);
-void	rotate_matrix(t_map *map, double axis[3], double angle);
+void	rotate_matrix(t_map *map, t_quat *quaternion);
 void	print_matrix(t_map *map);
 void	free_matrix2d(void *matrix);
 

@@ -30,8 +30,8 @@ void	free_map(t_map *map)
 
 int	clear_program(void *fdf_pack[3])
 {
-	t_mlx *mlx;
-	t_map *map;
+	t_mlx	*mlx;
+	t_map	*map;
 
 	mlx = (t_mlx *)fdf_pack[0];
 	map = (t_map *)fdf_pack[1];
