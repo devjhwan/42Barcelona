@@ -39,42 +39,56 @@ static t_img	*init_img(void *mlx)
 	return (img);
 }
 
-static void	mlx_struct_init(t_mlx *mlx, char *fdf_file)
+static void	*mlx_initialize(t_mlx *mlx)
 {
 	ft_bzero(mlx, sizeof(t_mlx));
 	mlx->mlx = mlx_init();
 	if (mlx->mlx == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	mlx->mlx_win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "junghwle's fdf");
 	mlx->img = init_img(mlx->mlx);
-	mlx->tmp_img = init_img(mlx->mlx);
-	mlx->map = parse_fdf(fdf_file);
-	if (mlx->mlx_win == NULL || mlx->img == NULL || \
-		mlx->tmp_img == NULL || mlx->map == NULL)
+	if (mlx->mlx_win == NULL || mlx->img == NULL)
 	{
-		free_mlx(*mlx);
-		exit(EXIT_FAILURE);
+		free_mlx(mlx);
+		return (NULL);
 	}
+	return (mlx);
 }
 
-static int	mlx_clear_function(t_mlx *mlx)
+void	fdf_start(t_mlx *mlx, t_map *map, t_fdf_flag *flag, char *fdf_filename)
 {
-	free_mlx(*mlx);
-	exit(0);
+	if (mlx_initialize(mlx) == NULL)
+		exit(EXIT_FAILURE);
+	if (map_initialize(map, fdf_filename) == NULL)
+	{
+		free_mlx(mlx);
+		exit(EXIT_FAILURE);
+	}
+	ft_bzero(flag, sizeof(t_fdf_flag));
+	draw_shape(mlx, map);
 }
 
 int	main(int argc, char **argv)
 {
-	t_mlx	mlx;
+	t_mlx		mlx;
+	t_map		map;
+	t_fdf_flag	flag;
 
 	if (argc != 2)
 		return (0);
-	mlx_struct_init(&mlx, argv[1]);
+	fdf_start(&mlx, &map, &flag, argv[1]);
 	mlx_hook(mlx.mlx_win, ON_KEYDOWN, KEY_PRESS, \
-			key_hook_function, &mlx);
+			key_press_hook, (void *[]){&mlx, &map, &flag});
+	mlx_hook(mlx.mlx_win, ON_KEYUP, KEY_RELEASE, \
+			key_release_hook, (void *[]){&mlx, &map, &flag});
 	mlx_hook(mlx.mlx_win, ON_MOUSEDOWN, BUTTON_PRESS, \
-			mouse_hook_function, &mlx);
+			mouse_press_function, (void *[]){&mlx, &map, &flag});
+	//mlx_hook(mlx.mlx_win, ON_MOUSEMOVE, NO_MASK, \
+	//		mouse_move_function, (void *[]){&mlx, &map, &flag});
+	//mlx_hook(mlx.mlx_win, ON_MOUSEUP, BUTTON_RELEASE, \
+	//		mouse_up_function, (void *[]){&mlx, &map, &flag});
 	mlx_hook(mlx.mlx_win, ON_DESTROY, NO_MASK, \
-			mlx_clear_function, &mlx);
+			clear_program, (void *[]){&mlx, &map, &flag});
+	mlx_loop_hook(mlx.mlx, render_frame_hook, (void *[]){&mlx, &map, &flag});
 	mlx_loop(mlx.mlx);
 }

@@ -14,12 +14,14 @@ NAME=fdf
 
 SRCDIR=source
 OBJDIR=objs
-SRCS=fdf.c free_mlx.c fdf_key_hook.c fdf_mouse_hook.c parse_fdf.c matrix.c
+SRCS=main.c fdf_free.c fdf_key_hook.c fdf_mouse_hook.c fdf_map.c matrix.c \
+	 quaternion.c quaternion2.c fdf_map2.c fdf_map3.c fdf_draw.c fdf_map4.c \
+	 fdf_loop_hook.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
 INCLUDE=-Iinclude -Ilibft -Iminilibx_macos -Iminilibx-linux
-CC=cc
+CC=gcc
 CFLAGS=-Wall -Werror -Wextra
 DEPFLAGS=-MMD
 COMPILE.c=$(CC) $(DEPFLAGS) $(CFLAGS) $(INCLUDE) -c -o
@@ -30,16 +32,14 @@ LIBRARIES=libft/libft.a minilibx_macos/libmlx.a
 EXTRA_FLAGS_LINUX=-Lminilibx-linux -lXext -lX11 -lm -lz
 LIBRARIES_LINUX=libft/libft.a minilibx-linux/libmlx.a
 
-all: $(OBJDIR) $(NAME)
+all: $(OBJDIR) minilibx $(NAME)
 
 $(NAME): $(OBJS) Makefile
 	make -C libft
 ifeq ($(shell uname), Linux)
-	make -C minilibx-linux
 	$(CC) $(CFLAGS) $(OBJS) $(LIBRARIES_LINUX) \
 		$(EXTRA_FLAGS_LINUX) $(INCLUDE) -o $@ 
 else
-	make -C minilibx_macos
 	$(CC) $(CFLAGS) $(EXTRA_FLAGS) -o $@ $(OBJS) $(LIBRARIES)
 endif
 	echo "(FDF) COMPILING $@"
@@ -48,7 +48,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
 ifeq ($(shell uname), Linux)
 	$(CC) $(CFLAGS) -Iinclude -Ilibft -Iminilibx-linux -O3 -c $< -o $@
 else
-	make -C minilibx_macos
 	$(COMPILE.c) $@ $<
 endif
 	echo "(FDF) COMPILING $@"
@@ -56,18 +55,31 @@ endif
 $(OBJDIR): Makefile
 	mkdir -p $@
 
+minilibx:
+ifeq ($(shell uname), Linux)
+	make -C minilibx-linux
+else
+	make -C minilibx_macos
+endif
+
 clean:
 	make -C libft fclean
 	rm -rf $(OBJDIR)
 
 fclean: clean
-	make -C minilibx_macos clean
+ifeq ($(shell uname), Linux)
 	make -C minilibx-linux clean
+else
+	make -C minilibx_macos clean
+endif
 	rm -f $(NAME)
 
 re: fclean all
 
+debug: all
+	./fdf $(shell ls -d test_maps/* | sed -n 5p)
+
 -include $(DEPS)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re minilibx
 .SILENT:

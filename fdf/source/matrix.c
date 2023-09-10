@@ -12,28 +12,66 @@
 
 #include "fdf_map.h"
 
-void	*get_matrix2d(size_t row, size_t col, size_t size)
+void	translate_matrix(t_map *map, double position[3])
 {
-	void	**matrix;
-	size_t	i;
+	int	n;
 
-	matrix = malloc(sizeof(void **) * (row + 1));
-	if (matrix == NULL)
-		return (NULL);
-	i = 0;
-	while (i < row)
+	n = 0;
+	while (n < map->len)
 	{
-		matrix[i] = calloc(col, size);
-		if (matrix[i] == NULL)
-		{
-			while (i > 0)
-				free(matrix[--i]);
-			return (free(matrix), NULL);
-		}
-		i++;
+		map->matrix[n] += position[0];
+		map->matrix[n + 1] += position[1];
+		map->matrix[n + 2] += position[2];
+		n += 3;
 	}
-	matrix[i] = NULL;
-	return (matrix);
+}
+
+void	scale_matrix(t_map *map, double scale[3])
+{
+	int		n;
+
+	n = 0;
+	while (n < map->len)
+	{
+		map->matrix[n] *= scale[0];
+		map->matrix[n + 1] *= scale[1];
+		map->matrix[n + 2] *= scale[2];
+		n += 3;
+	}
+}
+
+void	rotate_matrix(t_map *map, double axis[3], double angle)
+{
+	t_quat	quaternion;
+	int		n;
+
+	quaternion_from_axisangle(axis, angle, &quaternion);
+	n = 0;
+	while (n < map->len)
+	{
+		quaternion_rotate(&quaternion, &map->matrix[n]);
+		n += 3;
+	}
+}
+
+void	print_matrix(t_map *map)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (i++ < map->row)
+	{
+		j = 0;
+		while (j++ < map->col)
+		{
+			ft_printf("%d ", (int)map->matrix[k + 2]);
+			k += 3;
+		}
+		ft_printf("\n");
+	}
 }
 
 void	free_matrix2d(void *matrix)

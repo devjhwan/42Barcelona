@@ -13,38 +13,42 @@
 #ifndef FDF_MAP_H
 # define FDF_MAP_H
 
+# define WIDTH 1920
+# define HEIGHT 1080
+
 # include <fcntl.h>
 # include "libft.h"
-#include "quaternion.h"
+# include "quaternion.h"
 
 # define GIGABYTE 1073741824
 # define MEGABYTE 1048576
 # define KILOBYTE 1024
 
+# define WHITE 0x00FFFFFF
+
+typedef struct s_transform
+{
+	double	position[3];
+	double	rotate[3];
+	double	scale[3];
+}	t_transform;
+
 typedef struct s_map
 {
 	int				row;
 	int				col;
-	int				**matrix;
-	unsigned int	**color;
+	int				len;
+	double			*matrix;
+	unsigned int	*color;
+	t_transform		transform;
 }	t_map;
 
-typedef struct s_point2d
-{
-	int	x;
-	int	y;
-}	t_point2d;
-
-typedef struct s_point3d
-{
-	int	x;
-	int	y;
-	int	z;
-}	t_point2d;
-
-t_map	*parse_fdf(char *fdf_file);
-void	*get_matrix2d(size_t row, size_t col, size_t size);
+void	*map_initialize(t_map *map, char *fdf_filename);
+void	free_map(t_map *map);
+void	translate_matrix(t_map *map, double position[3]);
+void	scale_matrix(t_map *map, double scale[3]);
+void	rotate_matrix(t_map *map, double axis[3], double angle);
+void	print_matrix(t_map *map);
 void	free_matrix2d(void *matrix);
-
 
 #endif

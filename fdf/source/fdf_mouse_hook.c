@@ -12,10 +12,13 @@
 
 #include "fdf.h"
 
-int	mouse_hook_function(int button, int x, int y, t_mlx *mlx)
+int	mouse_press_function(int button, int x, int y, void *fdf_pack[3])
 {
-	if (mlx)
-		mlx = NULL;
+	t_mlx *mlx;
+	t_map *map;
+
+	mlx = (t_mlx *)fdf_pack[0];
+	map = (t_map *)fdf_pack[1];
 	ft_printf("button: %d\nx: %d\ny: %d\n", button, x, y);
 	ft_printf("\n");
 	return (0);

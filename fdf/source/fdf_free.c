@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mlx.c                                         :+:      :+:    :+:   */
+/*   fdf_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,21 +12,31 @@
 
 #include "fdf.h"
 
-void	free_mlx(t_mlx mlx)
+void	free_mlx(t_mlx *mlx)
 {
-	if (mlx.mlx != NULL)
-	{
-		if (mlx.mlx_win != NULL)
-			mlx_destroy_window(mlx.mlx, mlx.mlx_win);
-		if (mlx.img != NULL)
-			mlx_destroy_image(mlx.mlx, mlx.img->img);
-		if (mlx.tmp_img != NULL)
-			mlx_destroy_image(mlx.mlx, mlx.tmp_img->img);
-		if (mlx.map != NULL)
-		{
-			free_matrix2d(mlx.map->matrix);
-			free_matrix2d(mlx.map->color);
-			free(mlx.map);
-		}
-	}
+	if (mlx->mlx_win != NULL)
+		mlx_destroy_window(mlx->mlx, mlx->mlx_win);
+	if (mlx->img != NULL)
+		mlx_destroy_image(mlx->mlx, mlx->img->img);
+}
+
+void	free_map(t_map *map)
+{
+	free(map->matrix);
+	map->matrix = NULL;
+	free(map->color);
+	map->color = NULL;
+}
+
+int	clear_program(void *fdf_pack[3])
+{
+	t_mlx *mlx;
+	t_map *map;
+
+	mlx = (t_mlx *)fdf_pack[0];
+	map = (t_map *)fdf_pack[1];
+	free_map(map);
+	free_mlx(mlx);
+	exit(EXIT_SUCCESS);
+	return (0);
 }

@@ -54,9 +54,10 @@ typedef struct s_rotate
 	double	yz;
 }	t_rotate;
 
-void	quaternion_rotate(t_quat *q, double v[3], double output[3])
+void	quaternion_rotate(t_quat *q, double v[3])
 {
 	t_rotate	r;
+	double		output[3];
 
 	r.ww = q->w * q->w;
 	r.xx = q->i * q->i;
@@ -77,4 +78,7 @@ void	quaternion_rotate(t_quat *q, double v[3], double output[3])
 	output[2] = 2 * r.xz * v[0] + 2 * r.yz * v[1] + r.zz * v[2] - \
 				2 * r.wy * v[0] - r.yy * v[2] + 2 * r.wx * v[1] - \
 				r.xx * v[2] + r.ww * v[2];
+	v[0] = output[0];
+	v[1] = output[1];
+	v[2] = output[2];
 }

@@ -34,6 +34,6 @@ void	quaternion_conjugate(t_quat *q, t_quat *output);
 double	quaternion_norm(t_quat *q);
 void	quaternion_normalize(t_quat *q, t_quat *output);
 void	quaternion_multiply(t_quat *q1, t_quat *q2, t_quat *output);
-void	quaternion_rotate(t_quat *q, double v[3], double output[3])
+void	quaternion_rotate(t_quat *q, double v[3]);
 
 #endif

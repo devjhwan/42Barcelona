@@ -1,46 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_fdf.c                                        :+:      :+:    :+:   */
+/*   fdf_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 17:53:09 by junghwle          #+#    #+#             */
-/*   Updated: 2023/09/04 19:16:15 by junghwle         ###   ########.fr       */
+/*   Created: 2023/09/10 15:44:40 by junghwle          #+#    #+#             */
+/*   Updated: 2023/09/10 15:44:42 by junghwle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_map.h"
 
-void	map_init(t_map *map, char **line_sep)
-{
-	int	i;
-	int	j;
-	int	str_j;
+void	matrix_initialize(t_map *map, char **line_sep);
+void	shape_initialize(t_map *map);
 
-	i = 0;
-	while (i < map->row)
-	{
-		j = 0;
-		str_j = 0;
-		while (j < map->col)
-		{
-			map->matrix[i][j] = ft_atoi(&line_sep[i][str_j++]);
-			if (line_sep[i][str_j] == ',')
-			{
-				map->color[i][j] = ft_atoi_base(&line_sep[i][str_j + 3], \
-									"0123456789ABCDEF");
-			}
-			while (line_sep[i][str_j] != ' ' && line_sep[i][str_j] != '\0')
-				str_j++;
-			str_j++;
-			j++;
-		}
-		i++;
-	}
-}
-
-int	elem_count(char *line, int sep)
+static int	elem_count(char *line, int sep)
 {
 	size_t	count;
 	size_t	i;
@@ -60,34 +35,28 @@ int	elem_count(char *line, int sep)
 	return (count);
 }
 
-void	*get_map_matrix(char *line)
+static void	*get_map_matrix(t_map *map, char *line)
 {
-	t_map	*map;
 	char	**line_sep;
 
-	map = (t_map *)ft_calloc(1, sizeof(t_map));
-	if (map == NULL)
-		return (NULL);
 	line_sep = ft_split(line, "\n");
 	if (line_sep == NULL)
-		return (free(map), NULL);
+		return (free(map), free(line), NULL);
 	map->row = 0;
 	while (line_sep[map->row] != NULL)
 		map->row++;
 	map->col = elem_count(line_sep[0], ' ');
-	map->matrix = (int **)get_matrix2d(map->row, map->col, \
-					sizeof(int));
-	map->color = (unsigned int **)get_matrix2d(map->row, map->col, \
-					sizeof(int));
+	map->len = map->row * map->col * 3;
+	map->matrix = (double *)malloc(sizeof(double) * map->row * map->col * 3);
+	map->color = (unsigned int *)ft_calloc(map->row * map->col, sizeof(int));
 	if (map->matrix == NULL || map->color == NULL)
-		return (free_matrix2d(map->matrix), free_matrix2d(map->color), \
-				free_matrix2d(line_sep), free(map), NULL);
-	map_init(map, line_sep);
+		return (free_map(map), free_matrix2d(line_sep), free(line), NULL);
+	matrix_initialize(map, line_sep);
 	free_matrix2d(line_sep);
-	return (map);
+	return (free(line), map);
 }
 
-int	get_file_bytes(char *file_name)
+static int	get_file_bytes(char *file_name)
 {
 	int		fd;
 	int		byte;
@@ -113,25 +82,26 @@ int	get_file_bytes(char *file_name)
 	return (byte);
 }
 
-t_map	*parse_fdf(char *fdf_file)
+void	*map_initialize(t_map *map, char *fdf_filename)
 {
 	int		fd;
 	int		byte;
 	char	*line;
-	t_map	*map;
 
-	byte = get_file_bytes(fdf_file);
+	ft_bzero(map, sizeof(t_map));
+	byte = get_file_bytes(fdf_filename);
 	if (byte < 0)
 		return (NULL);
 	line = (char *)malloc(sizeof(char) *(byte + 1));
-	fd = open(fdf_file, O_RDONLY);
+	fd = open(fdf_filename, O_RDONLY);
 	if (fd < 0 || line == NULL)
 		return (close(fd), free(line), NULL);
 	if (read(fd, line, byte) < 0)
 		return (close(fd), free(line), NULL);
 	close(fd);
 	line[byte] = '\0';
-	map = get_map_matrix(line);
-	free(line);
+	if (get_map_matrix(map, line) == NULL)
+		return (NULL);
+	shape_initialize(map);
 	return (map);
 }

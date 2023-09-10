@@ -18,9 +18,6 @@
 # include "fdf_hook.h"
 # include "fdf_map.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-
 typedef struct s_img
 {
 	void	*img;
@@ -32,15 +29,13 @@ typedef struct s_img
 
 typedef struct s_mlx
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_img	*img;
-	t_img	*tmp_img;
-	t_map	*map;
+	void		*mlx;
+	void		*mlx_win;
+	t_img		*img;
 }	t_mlx;
 
-void	free_mlx(t_mlx mlx);
-int		key_hook_function(int keycode, t_mlx *mlx);
-int		mouse_hook_function(int button, int x, int y, t_mlx *mlx);
+void	draw_shape(t_mlx *mlx, t_map *map);
+void	free_mlx(t_mlx *mlx);
+int		clear_program(void *fdf_pack[3]);
 
 #endif

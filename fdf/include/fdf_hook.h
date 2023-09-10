@@ -13,6 +13,19 @@
 #ifndef FDF_HOOK_H
 # define FDF_HOOK_H
 
+typedef struct s_fdf_flag
+{
+	unsigned char	key;
+	unsigned char	arrow;
+	unsigned char	mouse;
+}	t_fdf_flag;
+typedef unsigned short int	t_byte;
+
+int	key_press_hook(int keycode, void *fdf_pack[3]);
+int	key_release_hook(int keycode, void *fdf_pack[3]);
+int	mouse_press_function(int button, int x, int y, void *fdf_pack[3]);
+int	render_frame_hook(void *fdf_pack[3]);
+
 /*KEY EVENTS*/
 # define ON_KEYDOWN 2
 # define ON_KEYUP 3
@@ -27,6 +40,20 @@
 # define KEY_RELEASE 2
 # define BUTTON_PRESS 4
 # define BUTTON_RELEASE 8
+
+/*FLAG*/
+# define FLAG_T 1
+# define FLAG_R 2
+# define FLAG_S 4
+# define FLAG_X 8
+# define FLAG_Y 16
+# define FLAG_Z 32
+# define FLAG_UP 1
+# define FLAG_DOWN 2
+# define FLAG_LEFT 4
+# define FLAG_RIGHT 8
+# define FLAG_LEFT_MOUSE 1
+# define FLAG_RIGHT_MOUSE 2
 
 /*KEY CODES*/
 # define KEY_Q 12
@@ -65,6 +92,10 @@
 # define KEY_8 28
 # define KEY_9 25
 # define KEY_0 29
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
 # define KEY_EXIT 53
 
 #endif
