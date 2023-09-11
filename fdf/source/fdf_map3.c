@@ -12,9 +12,6 @@
 
 #include "fdf_map.h"
 
-double	get_middle_distance(t_map *map, int axis);
-double	get_range(t_map *map, int axis);
-
 static void	init_position(t_map *map, t_transform *transform)
 {
 	double	md_x;
@@ -25,7 +22,6 @@ static void	init_position(t_map *map, t_transform *transform)
 	translate_matrix(map, (double []){-md_x, -md_y, 0});
 	transform->position[0] = 0;
 	transform->position[1] = 0;
-	transform->position[2] = 0;
 }
 
 static void	init_rotation(t_map *map, t_transform *transform)

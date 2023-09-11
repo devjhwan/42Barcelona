@@ -39,6 +39,7 @@ typedef struct s_map
 	int				col;
 	int				len;
 	double			*matrix;
+	double			*m_copy;
 	unsigned int	*color;
 	t_transform		transform;
 }	t_map;
@@ -50,5 +51,8 @@ void	scale_matrix(t_map *map, double scale[3]);
 void	rotate_matrix(t_map *map, t_quat *quaternion);
 void	print_matrix(t_map *map);
 void	free_matrix2d(void *matrix);
+double	get_middle_distance(t_map *map, int axis);
+double	get_range(t_map *map, int axis);
+void	reshape(t_map *map);
 
 #endif

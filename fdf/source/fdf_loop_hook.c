@@ -33,6 +33,7 @@ void	translate_keyboard(void *fdf_pack[3])
 			map->transform.position[0] -= speed;
 		if (flag->arrow & FLAG_RIGHT)
 			map->transform.position[0] += speed;
+		reshape(map);
 		draw_shape(mlx, map);
 	}
 }

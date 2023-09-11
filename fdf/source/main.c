@@ -68,6 +68,13 @@ void	fdf_start(t_mlx *mlx, t_map *map, t_fdf_flag *flag, char *fdf_filename)
 	draw_shape(mlx, map);
 }
 
+/*
+	//mlx_hook(mlx.mlx_win, ON_MOUSEMOVE, NO_MASK, \
+			mouse_move_function, (void *[]){&mlx, &map, &flag});
+	//mlx_hook(mlx.mlx_win, ON_MOUSEUP, BUTTON_RELEASE, \
+			mouse_up_function, (void *[]){&mlx, &map, &flag});
+*/
+
 int	main(int argc, char **argv)
 {
 	t_mlx		mlx;
@@ -83,10 +90,6 @@ int	main(int argc, char **argv)
 			key_release_hook, (void *[]){&mlx, &map, &flag});
 	mlx_hook(mlx.mlx_win, ON_MOUSEDOWN, BUTTON_PRESS, \
 			mouse_press_function, (void *[]){&mlx, &map, &flag});
-	//mlx_hook(mlx.mlx_win, ON_MOUSEMOVE, NO_MASK, \
-	//		mouse_move_function, (void *[]){&mlx, &map, &flag});
-	//mlx_hook(mlx.mlx_win, ON_MOUSEUP, BUTTON_RELEASE, \
-	//		mouse_up_function, (void *[]){&mlx, &map, &flag});
 	mlx_hook(mlx.mlx_win, ON_DESTROY, NO_MASK, \
 			clear_program, (void *[]){&mlx, &map, &flag});
 	mlx_loop_hook(mlx.mlx, render_frame_hook, \

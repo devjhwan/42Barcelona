@@ -38,7 +38,7 @@ static void	release_arrow(int keycode, t_fdf_flag *flag)
 
 static void	call_exit(int keycode, void *fdf_pack[3])
 {
-	ft_printf("%d\n", keycode);
+	ft_printf("# define KEY_ %d\n", keycode);
 	if (keycode == KEY_EXIT)
 		clear_program(fdf_pack);
 }

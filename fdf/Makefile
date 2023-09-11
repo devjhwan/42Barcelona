@@ -16,7 +16,7 @@ SRCDIR=source
 OBJDIR=objs
 SRCS=main.c fdf_free.c fdf_key_hook.c fdf_mouse_hook.c fdf_map.c matrix.c \
 	 quaternion.c quaternion2.c fdf_map2.c fdf_map3.c fdf_draw.c fdf_map4.c \
-	 fdf_loop_hook.c
+	 fdf_loop_hook.c fdf_reshape.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
