@@ -56,6 +56,7 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define FLAG_RIGHT_MOUSE 2
 
 /*LINUX KEY CODES*/
+/*
 # define KEY_T 116
 # define KEY_UP 65362
 # define KEY_DOWN 65364
@@ -68,9 +69,10 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_Z 122
 # define KEY_R 114
 # define KEY_Q 116
+*/
 
 /*MAC KEY CODES*/
-/*
+
 # define KEY_Q 12
 # define KEY_W 13
 # define KEY_E 14
@@ -112,6 +114,5 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_DOWN 125
 # define KEY_UP 126
 # define KEY_EXIT 53
-*/
 
 #endif

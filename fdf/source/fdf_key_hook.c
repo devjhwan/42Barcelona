@@ -38,7 +38,6 @@ static void	release_arrow(int keycode, t_fdf_flag *flag)
 
 static void	call_exit(int keycode, void *fdf_pack[3])
 {
-	ft_printf("# define KEY_ %d\n", keycode);
 	if (keycode == KEY_EXIT)
 		clear_program(fdf_pack);
 }
@@ -51,7 +50,18 @@ int	key_press_hook(int keycode, void *fdf_pack[3])
 	call_exit(keycode, fdf_pack);
 	if (keycode == KEY_T)
 		flag->key = FLAG_T;
+	if (keycode == KEY_S)
+		flag->key = FLAG_S;
+	if (flag->key & FLAG_S && keycode == KEY_X)
+		flag->key ^= FLAG_X;
+	if (flag->key & FLAG_S && keycode == KEY_Y)
+		flag->key ^= FLAG_Y;
+	if (flag->key & FLAG_S && keycode == KEY_Z)
+		flag->key ^= FLAG_Z;
+	if (keycode == KEY_R)
+		flag->key = FLAG_R;
 	press_arrow(keycode, flag);
+	ft_printf("%x\n", flag->key);
 	return (0);
 }
 

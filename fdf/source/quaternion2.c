@@ -20,24 +20,35 @@ double	quaternion_norm(t_quat *q)
 void	quaternion_normalize(t_quat *q, t_quat *output)
 {
 	double	len;
+	t_quat	result;
 
 	len = quaternion_norm(q);
-	output->w = q->w / len;
-	output->i = q->i / len;
-	output->j = q->j / len;
-	output->k = q->k / len;
+	result.w = q->w / len;
+	result.i = q->i / len;
+	result.j = q->j / len;
+	result.k = q->k / len;
+	output->w = result.w;
+	output->i = result.i;
+	output->j = result.j;
+	output->k = result.k;
 }
 
 void	quaternion_multiply(t_quat *q1, t_quat *q2, t_quat *output)
 {
-	output->w = q1->w * q2->w - q1->i * q2->i - \
+	t_quat	result;
+
+	result.w = q1->w * q2->w - q1->i * q2->i - \
 				q1->j * q2->j - q1->k * q2->k;
-	output->i = q1->i * q2->w + q1->w * q2->i + \
+	result.i = q1->i * q2->w + q1->w * q2->i + \
 				q1->j * q2->k - q1->k * q2->j;
-	output->j = q1->w * q2->j - q1->i * q2->k + \
+	result.j = q1->w * q2->j - q1->i * q2->k + \
 				q1->j * q2->w + q1->k * q2->i;
-	output->k = q1->w * q2->k + q1->i * q2->j - \
+	result.k = q1->w * q2->k + q1->i * q2->j - \
 				q1->j * q2->i + q1->k * q2->w;
+	output->w = result.w;
+	output->i = result.i;
+	output->j = result.j;
+	output->k = result.k;
 }
 
 typedef struct s_rotate
