@@ -93,11 +93,23 @@ void	draw_shape(t_mlx *mlx, t_map *map)
 
 	mlx_clear_img(mlx->img);
 	mlx_clear_window(mlx->mlx, mlx->mlx_win);
-	n = 0;
-	while (n < map->len)
+	if (map->matrix[(map->row * map->col - map->row) * 3 + 2] > 0)
 	{
-		select_point(mlx, map, n);
-		n += 3;
+		n = 0;
+		while (n < map->len)
+		{
+			select_point(mlx, map, n);
+			n += 3;
+		}
+	}
+	else
+	{
+		n = map->len - 3;
+		while (n >= 0)
+		{
+			select_point(mlx, map, n);
+			n -= 3;
+		}
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->mlx_win, mlx->img->img, 0, 0);
 }

@@ -91,19 +91,24 @@ void	scale_keyboard(void *fdf_pack[3])
 	}
 }
 
+#include <stdio.h>
+
 void	rotate_keyboard(void *fdf_pack[3])
 {
 	t_mlx		*mlx;
 	t_map		*map;
 	t_fdf_flag	*flag;
 	t_quat	quaternion;
-
+	
 	flag = (t_fdf_flag *)fdf_pack[2];
 	if (flag->key & FLAG_R)
 	{
 		mlx = (t_mlx *)fdf_pack[0];
 		map = (t_map *)fdf_pack[1];
 		quaternion_identity(&quaternion);
+		
+		//map->matrix[(map->row * map->col - map->row) * 3 + 2]
+
 		if (flag->arrow & FLAG_UP)
 			quaternion_from_axisangle((double []){1, 0, 0}, \
 								M_PI / 36, &quaternion);
