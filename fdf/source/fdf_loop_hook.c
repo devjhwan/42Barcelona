@@ -12,18 +12,12 @@
 
 #include "fdf.h"
 
-void	translate_keyboard(void *fdf_pack[3])
+void	translate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
-	t_mlx		*mlx;
-	t_map		*map;
-	t_fdf_flag	*flag;
 	double		speed;
 
-	flag = (t_fdf_flag *)fdf_pack[2];
 	if (flag->key & FLAG_T)
 	{
-		mlx = (t_mlx *)fdf_pack[0];
-		map = (t_map *)fdf_pack[1];
 		speed = 3;
 		if (flag->arrow & FLAG_UP)
 			map->transform.position[1] -= speed;
@@ -62,17 +56,10 @@ void	scale_keyboard2(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 	draw_shape(mlx, map);
 }
 
-void	scale_keyboard(void *fdf_pack[3])
+void	scale_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
-	t_mlx			*mlx;
-	t_map			*map;
-	t_fdf_flag		*flag;
-
-	flag = (t_fdf_flag *)fdf_pack[2];
 	if (flag->key & FLAG_S)
 	{
-		mlx = (t_mlx *)fdf_pack[0];
-		map = (t_map *)fdf_pack[1];
 		if (!(flag->key & ~FLAG_S) && \
 			(flag->arrow & FLAG_UP || flag->arrow & FLAG_RIGHT))
 		{
@@ -91,36 +78,27 @@ void	scale_keyboard(void *fdf_pack[3])
 	}
 }
 
-#include <stdio.h>
-
-void	rotate_keyboard(void *fdf_pack[3])
+void	rotate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
-	t_mlx		*mlx;
-	t_map		*map;
-	t_fdf_flag	*flag;
 	t_quat	quaternion;
 	
-	flag = (t_fdf_flag *)fdf_pack[2];
 	if (flag->key & FLAG_R)
 	{
-		mlx = (t_mlx *)fdf_pack[0];
-		map = (t_map *)fdf_pack[1];
 		quaternion_identity(&quaternion);
-		
-		//map->matrix[(map->row * map->col - map->row) * 3 + 2]
-
 		if (flag->arrow & FLAG_UP)
 			quaternion_from_axisangle((double []){1, 0, 0}, \
 								M_PI / 36, &quaternion);
-		if (flag->arrow & FLAG_DOWN)
+		else if (flag->arrow & FLAG_DOWN)
 			quaternion_from_axisangle((double []){1, 0, 0}, \
 								-M_PI / 36, &quaternion);
+		quaternion_multiply(&quaternion, &map->transform.quaternion, \
+			&map->transform.quaternion);
 		if (flag->arrow & FLAG_LEFT)
 			quaternion_from_axisangle((double []){0, 1, 0}, \
-								M_PI / 36, &quaternion);
-		if (flag->arrow & FLAG_RIGHT)
-			quaternion_from_axisangle((double []){0, 1, 0}, \
 								-M_PI / 36, &quaternion);
+		else if (flag->arrow & FLAG_RIGHT)
+			quaternion_from_axisangle((double []){0, 1, 0}, \
+								M_PI / 36, &quaternion);
 		quaternion_multiply(&quaternion, &map->transform.quaternion, \
 			&map->transform.quaternion);
 		reshape(map);
@@ -128,10 +106,28 @@ void	rotate_keyboard(void *fdf_pack[3])
 	}
 }
 
+void	bakc_to_original_shape(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
+{
+	if (flag->key == FLAG_Q)
+	{
+		shape_initialize(map);
+		draw_shape(mlx, map);
+		flag->key = 0;
+	}
+}
+
 int	render_frame_hook(void *fdf_pack[3])
 {
-	translate_keyboard(fdf_pack);
-	scale_keyboard(fdf_pack);
-	rotate_keyboard(fdf_pack);
+	t_mlx		*mlx;
+	t_map		*map;
+	t_fdf_flag	*flag;
+
+	mlx = (t_mlx *)fdf_pack[0];
+	map = (t_map *)fdf_pack[1];
+	flag = (t_fdf_flag *)fdf_pack[2];
+	translate_keyboard(mlx, map, flag);
+	scale_keyboard(mlx, map, flag);
+	rotate_keyboard(mlx, map, flag);
+	bakc_to_original_shape(mlx, map, flag);
 	return (0);
 }

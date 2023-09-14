@@ -65,6 +65,14 @@ static void	mlx_clear_img(t_img *img)
 	}
 }
 
+unsigned int	select_color(t_map *map, int n1, int n2)
+{
+	if (map->m_copy[n1] > map->m_copy[n2])
+		return (map->color[n1 / 3]);
+	else
+		return (map->color[n2 / 3]);
+}
+
 void	select_point(t_mlx *mlx, t_map *map, int n)
 {
 	if (n + 3 < map->len - 1 && (n / 3) % map->col < map->col - 1)
@@ -74,7 +82,7 @@ void	select_point(t_mlx *mlx, t_map *map, int n)
 						map->matrix[n + 1]}, \
 			(double []){map->matrix[n + 3], \
 						map->matrix[n + 4]}, \
-			map->color[n / 3]);
+			select_color(map, n + 2, n + 5));
 	}
 	if (n + map->col * 3 < map->len - 1)
 	{
@@ -83,7 +91,7 @@ void	select_point(t_mlx *mlx, t_map *map, int n)
 						map->matrix[n + 1]}, \
 			(double []){map->matrix[n + map->col * 3], \
 						map->matrix[n + map->col * 3 + 1]}, \
-			map->color[n / 3]);
+			select_color(map, n + 2, n + map->col * 3 + 2));
 	}
 }
 

@@ -41,6 +41,7 @@ typedef struct s_map
 	double			*matrix;
 	double			*m_copy;
 	unsigned int	*color;
+	int				issphere;
 	t_transform		transform;
 }	t_map;
 
@@ -51,8 +52,11 @@ void	scale_matrix(t_map *map, double scale[3]);
 void	rotate_matrix(t_map *map, t_quat *quaternion);
 void	print_matrix(t_map *map);
 void	free_matrix2d(void *matrix);
+void	shape_initialize(t_map *map);
 double	get_middle_distance(t_map *map, int axis);
 double	get_range(t_map *map, int axis);
 void	reshape(t_map *map);
+void	plane3d_to_sphere(t_map *map);
+void	set_spherical_perspective(t_map *map);
 
 #endif

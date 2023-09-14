@@ -13,7 +13,6 @@
 #include "fdf_map.h"
 
 void	matrix_initialize(t_map *map, char **line_sep);
-void	shape_initialize(t_map *map);
 
 static int	elem_count(char *line, int sep)
 {
@@ -105,6 +104,7 @@ void	*map_initialize(t_map *map, char *fdf_filename)
 	line[byte] = '\0';
 	if (get_map_matrix(map, line) == NULL)
 		return (NULL);
+	//set_spherical_perspective(map);
 	shape_initialize(map);
 	return (map);
 }
