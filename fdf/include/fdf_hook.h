@@ -49,6 +49,7 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define FLAG_Y 16
 # define FLAG_Z 32
 # define FLAG_Q 64
+# define FLAG_H 128
 # define FLAG_UP 1
 # define FLAG_DOWN 2
 # define FLAG_LEFT 4
@@ -69,6 +70,7 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_Z 122
 # define KEY_R 114
 # define KEY_Q 113
+# define KEY_H 104
 
 /*MAC KEY CODES*/
 

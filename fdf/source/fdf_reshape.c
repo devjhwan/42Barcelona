@@ -14,7 +14,6 @@
 
 static void	scale(t_map *map, t_transform *transform)
 {
-	scale_matrix(map, (double []){100, 100, 100});
 	scale_matrix(map, (double []){transform->scale[0], \
 									transform->scale[1], \
 									transform->scale[2]});
@@ -43,6 +42,8 @@ void	reshape(t_map *map)
 	transform = &map->transform;
 	ft_memcpy(map->matrix, map->m_copy, \
 				sizeof(double) * map->row * map->col * 3);
+	if (map->issphere)
+		plane3d_to_sphere(map);
 	scale(map, transform);
 	rotate(map, transform);
 	translate(map, transform);

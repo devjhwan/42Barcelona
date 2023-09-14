@@ -104,7 +104,6 @@ void	*map_initialize(t_map *map, char *fdf_filename)
 	line[byte] = '\0';
 	if (get_map_matrix(map, line) == NULL)
 		return (NULL);
-	//set_spherical_perspective(map);
 	shape_initialize(map);
 	return (map);
 }

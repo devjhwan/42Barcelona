@@ -32,7 +32,7 @@ void	translate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 	}
 }
 
-void	scale_keyboard2(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
+void	scale_keyboard2(t_map *map, t_fdf_flag *flag)
 {
 	if ((flag->key & FLAG_X) && \
 		(flag->arrow & FLAG_UP || flag->arrow & FLAG_RIGHT))
@@ -52,8 +52,6 @@ void	scale_keyboard2(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 	if ((flag->key & FLAG_Z) && \
 		(flag->arrow & FLAG_DOWN || flag->arrow & FLAG_LEFT))
 		map->transform.scale[2] *= 0.95;
-	reshape(map);
-	draw_shape(mlx, map);
 }
 
 void	scale_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
@@ -74,7 +72,10 @@ void	scale_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 			map->transform.scale[1] *= 0.95;
 			map->transform.scale[2] *= 0.95;
 		}
-		scale_keyboard2(mlx, map, flag);
+		if (!map->issphere)
+			scale_keyboard2(map, flag);
+		reshape(map);
+		draw_shape(mlx, map);
 	}
 }
 
@@ -106,11 +107,23 @@ void	rotate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 	}
 }
 
-void	bakc_to_original_shape(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
+void	back_to_original_shape(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
 	if (flag->key == FLAG_Q)
 	{
+		map->issphere = 0;
 		shape_initialize(map);
+		draw_shape(mlx, map);
+		flag->key = 0;
+	}
+}
+
+void	set_to_spherical_perspective(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
+{
+	if (flag->key == FLAG_H)
+	{
+		map->issphere = 1;
+		set_spherical_perspective(map);
 		draw_shape(mlx, map);
 		flag->key = 0;
 	}
@@ -128,6 +141,7 @@ int	render_frame_hook(void *fdf_pack[3])
 	translate_keyboard(mlx, map, flag);
 	scale_keyboard(mlx, map, flag);
 	rotate_keyboard(mlx, map, flag);
-	bakc_to_original_shape(mlx, map, flag);
+	back_to_original_shape(mlx, map, flag);
+	set_to_spherical_perspective(mlx, map, flag);
 	return (0);
 }

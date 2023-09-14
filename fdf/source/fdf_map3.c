@@ -45,7 +45,6 @@ static void	init_scale(t_map *map, t_transform *transform)
 	double	proyection_scale;
 
 	proyection_scale = sin(M_PI / 4) * tan(M_PI / 6);
-	scale_matrix(map, (double []){100, 100, 100});
 	range_x = get_range(map, 0);
 	range_y = get_range(map, 1);
 	range_z = get_range(map, 2);

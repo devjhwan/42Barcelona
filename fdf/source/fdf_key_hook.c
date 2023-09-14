@@ -62,8 +62,10 @@ int	key_press_hook(int keycode, void *fdf_pack[3])
 		flag->key = FLAG_R;
 	if (keycode == KEY_Q)
 		flag->key = FLAG_Q;
+	if (keycode == KEY_H)
+		flag->key = FLAG_H;
 	press_arrow(keycode, flag);
-	ft_printf("%\n", flag->key);
+	ft_printf("%d\n", keycode);
 	return (0);
 }
 

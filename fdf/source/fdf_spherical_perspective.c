@@ -48,7 +48,6 @@ static void	init_scale(t_map *map, t_transform *transform)
 {
 	double	range;
 
-	scale_matrix(map, (double []){100, 100, 100});
 	range = get_range(map, 0);
 	transform->scale[0] = HEIGHT / range * 0.8;
 	transform->scale[1] = HEIGHT / range * 0.8;
@@ -68,4 +67,5 @@ void	set_spherical_perspective(t_map *map)
 	plane3d_to_sphere(map);
 	init_scale(map, transform);
 	init_position(map, transform);
+	quaternion_identity(&transform->quaternion);
 }
