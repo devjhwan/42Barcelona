@@ -25,9 +25,12 @@ void	plane3d_to_sphere(t_map *map)
 	{
 		latitude = (map->matrix[n + 1] / map->row - 0.5) * M_PI;
 		longitude = (map->matrix[n] / map->col - 0.5) * 2 * M_PI;
-		map->matrix[n] = (radius + map->matrix[n + 2]) * cos(latitude) * cos(longitude);
-		map->matrix[n + 1] = (radius + map->matrix[n + 2]) * cos(latitude) * sin(longitude);
-		map->matrix[n + 2] = (radius + map->matrix[n + 2]) * sin(latitude);
+		map->matrix[n] = (radius + map->matrix[n + 2]) * \
+							cos(latitude) * cos(longitude);
+		map->matrix[n + 1] = (radius + map->matrix[n + 2]) * \
+							cos(latitude) * sin(longitude);
+		map->matrix[n + 2] = (radius + map->matrix[n + 2]) * \
+							sin(latitude);
 		n += 3;
 	}
 }

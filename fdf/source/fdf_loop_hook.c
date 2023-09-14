@@ -82,7 +82,7 @@ void	scale_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 void	rotate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
 	t_quat	quaternion;
-	
+
 	if (flag->key & FLAG_R)
 	{
 		quaternion_identity(&quaternion);
