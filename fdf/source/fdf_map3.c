@@ -19,7 +19,7 @@ static void	init_position(t_map *map, t_transform *transform)
 
 	md_x = get_middle_distance(map, 0);
 	md_y = get_middle_distance(map, 1);
-	translate_matrix(map, (double []){-md_x, -md_y, 0});
+	translate_matrix(map->matrix, map->len, (double []){-md_x, -md_y, 0});
 	transform->position[0] = 0;
 	transform->position[1] = 0;
 }
@@ -34,7 +34,7 @@ static void	init_rotation(t_map *map, t_transform *transform)
 	quaternion_from_axisangle((double []){1, 0, 0}, \
 								asin(tan(M_PI / 6)), &quaternion2);
 	quaternion_multiply(&quaternion2, &quaternion1, &transform->quaternion);
-	rotate_matrix(map, &transform->quaternion);
+	rotate_matrix(map->matrix, map->len, &transform->quaternion);
 }
 
 static void	init_scale(t_map *map, t_transform *transform)
@@ -51,9 +51,10 @@ static void	init_scale(t_map *map, t_transform *transform)
 	transform->scale[0] = HEIGHT / range_x * proyection_scale * 1.5;
 	transform->scale[1] = HEIGHT / range_y * proyection_scale * 1.5;
 	transform->scale[2] = HEIGHT / range_z * 0.15;
-	scale_matrix(map, (double []){transform->scale[0], \
-									transform->scale[1], \
-									transform->scale[2]});
+	scale_matrix(map->matrix, map->len, \
+				(double []){transform->scale[0], \
+							transform->scale[1], \
+							transform->scale[2]});
 }
 
 void	shape_initialize(t_map *map)

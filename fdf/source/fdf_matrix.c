@@ -12,47 +12,47 @@
 
 #include "fdf_map.h"
 
-void	translate_matrix(t_map *map, double position[3])
+void	translate_matrix(double *matrix, int len, double position[3])
 {
 	int	n;
 
 	n = 0;
-	while (n < map->len)
+	while (n < len)
 	{
-		map->matrix[n] += position[0];
-		map->matrix[n + 1] += position[1];
-		map->matrix[n + 2] += position[2];
+		matrix[n] += position[0];
+		matrix[n + 1] += position[1];
+		matrix[n + 2] += position[2];
 		n += 3;
 	}
 }
 
-void	scale_matrix(t_map *map, double scale[3])
+void	scale_matrix(double *matrix, int len, double scale[3])
 {
 	int		n;
 
 	n = 0;
-	while (n < map->len)
+	while (n < len)
 	{
-		map->matrix[n] *= scale[0];
-		map->matrix[n + 1] *= scale[1];
-		map->matrix[n + 2] *= scale[2];
+		matrix[n] *= scale[0];
+		matrix[n + 1] *= scale[1];
+		matrix[n + 2] *= scale[2];
 		n += 3;
 	}
 }
 
-void	rotate_matrix(t_map *map, t_quat *quaternion)
+void	rotate_matrix(double *matrix, int len, t_quat *quaternion)
 {
 	int		n;
 
 	n = 0;
-	while (n < map->len)
+	while (n < len)
 	{
-		quaternion_rotate(quaternion, &map->matrix[n]);
+		quaternion_rotate(quaternion, &matrix[n]);
 		n += 3;
 	}
 }
 
-void	print_matrix(t_map *map)
+void	print_matrix(double *matrix, int row, int col)
 {
 	int	i;
 	int	j;
@@ -60,12 +60,12 @@ void	print_matrix(t_map *map)
 
 	i = 0;
 	k = 0;
-	while (i++ < map->row)
+	while (i++ < row)
 	{
 		j = 0;
-		while (j++ < map->col)
+		while (j++ < col)
 		{
-			ft_printf("%d ", (int)map->matrix[k + 2]);
+			ft_printf("%d ", (int)matrix[k + 2]);
 			k += 3;
 		}
 		ft_printf("\n");

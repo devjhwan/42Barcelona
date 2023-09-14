@@ -14,9 +14,10 @@ NAME=fdf
 
 SRCDIR=source
 OBJDIR=objs
-SRCS=main.c fdf_free.c fdf_key_hook.c fdf_mouse_hook.c fdf_map.c matrix.c \
-	 quaternion.c quaternion2.c fdf_map2.c fdf_map3.c fdf_draw.c fdf_map4.c \
-	 fdf_loop_hook.c fdf_reshape.c fdf_spherical_perspective.c
+SRCS=fdf_free.c fdf_key_hook.c fdf_mouse_hook.c fdf_map.c fdf_matrix.c \
+	 fdf_quaternion.c fdf_quaternion2.c fdf_map2.c fdf_map3.c fdf_draw.c \
+	 fdf_map4.c fdf_loop_hook.c fdf_reshape.c fdf_spherical_perspective.c \
+	 fdf_draw2.c fdf_loop_hook2.c fdf_main.c fdf_loop_hook3.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 

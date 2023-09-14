@@ -18,12 +18,15 @@ typedef struct s_fdf_flag
 	unsigned char	key;
 	unsigned char	arrow;
 	unsigned char	mouse;
+	int				mouse_v[2];
 }	t_fdf_flag;
 typedef unsigned short int	t_byte;
 
 int	key_press_hook(int keycode, void *fdf_pack[3]);
 int	key_release_hook(int keycode, void *fdf_pack[3]);
-int	mouse_press_function(int button, int x, int y, void *fdf_pack[3]);
+int	mouse_press_function(int button, int x, int y, void *fdf_flag);
+int	mouse_move_function(int x, int y, void *fdf_flag);
+int	mouse_release_function(int button, int x, int y, void *fdf_flag);
 int	render_frame_hook(void *fdf_pack[3]);
 
 /*KEY EVENTS*/
@@ -56,8 +59,17 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define FLAG_RIGHT 8
 # define FLAG_LEFT_MOUSE 1
 # define FLAG_RIGHT_MOUSE 2
+# define FLAG_SCROLL_UP 4
+# define FLAG_SCROLL_DOWN 8
+
+/*MAC MOUSE CODES*/
+# define MOUSE_LEFT 1
+# define MOUSE_RIGHT 2
+# define MOUSE_SCROLL_DOWN 4
+# define MOUSE_SCROLL_UP 5
 
 /*LINUX KEY CODES*/
+/*
 # define KEY_T 116
 # define KEY_UP 65362
 # define KEY_DOWN 65364
@@ -71,10 +83,9 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_R 114
 # define KEY_Q 113
 # define KEY_H 104
+*/
 
 /*MAC KEY CODES*/
-
-/*
 # define KEY_Q 12
 # define KEY_W 13
 # define KEY_E 14
@@ -116,6 +127,5 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_DOWN 125
 # define KEY_UP 126
 # define KEY_EXIT 53
-*/
 
 #endif

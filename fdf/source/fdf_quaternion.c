@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "quaternion.h"
+#include "fdf_map_utils.h"
 
 void	quaternion_identity(t_quat *quaternion)
 {

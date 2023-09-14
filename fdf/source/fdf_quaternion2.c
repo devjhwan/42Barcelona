@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "quaternion.h"
+#include "fdf_map_utils.h"
 
 double	quaternion_norm(t_quat *q)
 {

@@ -14,14 +14,15 @@
 
 static void	scale(t_map *map, t_transform *transform)
 {
-	scale_matrix(map, (double []){transform->scale[0], \
-									transform->scale[1], \
-									transform->scale[2]});
+	scale_matrix(map->matrix, map->len, \
+				(double []){transform->scale[0], \
+							transform->scale[1], \
+							transform->scale[2]});
 }
 
 static void	rotate(t_map *map, t_transform *transform)
 {
-	rotate_matrix(map, &transform->quaternion);
+	rotate_matrix(map->matrix, map->len, &transform->quaternion);
 }
 
 static void	translate(t_map *map, t_transform *transform)
@@ -31,8 +32,9 @@ static void	translate(t_map *map, t_transform *transform)
 
 	md_x = get_middle_distance(map, 0);
 	md_y = get_middle_distance(map, 1);
-	translate_matrix(map, (double []){-md_x + transform->position[0], \
-										-md_y + transform->position[1], 0});
+	translate_matrix(map->matrix, map->len, \
+					(double []){-md_x + transform->position[0], \
+								-md_y + transform->position[1], 0});
 }
 
 void	reshape(t_map *map)
