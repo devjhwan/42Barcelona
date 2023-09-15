@@ -49,11 +49,15 @@ static void	*get_map_matrix(t_map *map, char *line)
 	map->matrix = (double *)malloc(sizeof(double) * map->row * map->col * 3);
 	map->m_copy = (double *)malloc(sizeof(double) * map->row * map->col * 3);
 	map->color = (unsigned int *)ft_calloc(map->row * map->col, sizeof(int));
-	if (map->matrix == NULL || map->color == NULL || map->m_copy == NULL)
+	map->c_copy = (unsigned int *)ft_calloc(map->row * map->col, sizeof(int));
+	if (map->matrix == NULL || map->color == NULL || \
+		map->m_copy == NULL || map->c_copy == NULL)
 		return (free_map(map), free_matrix2d(line_sep), free(line), NULL);
 	matrix_initialize(map, line_sep);
 	ft_memcpy(map->m_copy, map->matrix, \
-				sizeof(double) * map->row * map->col * 3);
+				sizeof(double) * map->len);
+	ft_memcpy(map->m_copy, map->matrix, \
+				sizeof(unsigned int) * map->len / 3);
 	free_matrix2d(line_sep);
 	return (free(line), map);
 }

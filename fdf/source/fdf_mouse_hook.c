@@ -16,6 +16,8 @@ int	mouse_press_function(int button, int x, int y, void *fdf_flag)
 {
 	t_fdf_flag	*flag;
 
+	(void) x;
+	(void) y;
 	flag = (t_fdf_flag *)fdf_flag;
 	if (button == MOUSE_LEFT)
 		flag->mouse = FLAG_LEFT_MOUSE;
@@ -25,7 +27,6 @@ int	mouse_press_function(int button, int x, int y, void *fdf_flag)
 		flag->mouse = FLAG_SCROLL_DOWN;
 	else if (button == MOUSE_SCROLL_UP)
 		flag->mouse = FLAG_SCROLL_UP;
-	x = y;
 	ft_printf("%d\n", flag->mouse);
 	return (0);
 }
@@ -54,11 +55,12 @@ int	mouse_release_function(int button, int x, int y, void *fdf_flag)
 {
 	t_fdf_flag	*flag;
 
+	(void) x;
+	(void) y;
 	flag = (t_fdf_flag *)fdf_flag;
 	if (button == MOUSE_LEFT)
 		flag->mouse &= ~FLAG_LEFT_MOUSE;
 	else if (button == MOUSE_RIGHT)
 		flag->mouse &= ~FLAG_RIGHT_MOUSE;
-	x = y;
 	return (0);
 }

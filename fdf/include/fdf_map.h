@@ -41,6 +41,7 @@ typedef struct s_map
 	double			*matrix;
 	double			*m_copy;
 	unsigned int	*color;
+	unsigned int	*c_copy;
 	int				issphere;
 	t_transform		transform;
 }	t_map;

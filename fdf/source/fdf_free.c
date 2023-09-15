@@ -28,6 +28,8 @@ void	free_map(t_map *map)
 	map->color = NULL;
 	free(map->m_copy);
 	map->m_copy = NULL;
+	free(map->c_copy);
+	map->c_copy = NULL;
 }
 
 int	clear_program(void *fdf_pack[3])

@@ -12,4 +12,11 @@
 
 #ifndef FDF_COLOR_H
 # define FDF_COLOR_H
+
+# define BASIC_COLOR 1
+# define BLACK_RED 3
+# define DEEPBLUE_RED 4
+# define BLACK_DEEPBLUE 5
+# define WORDL 6
+
 #endif

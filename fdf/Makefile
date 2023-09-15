@@ -45,7 +45,7 @@ else
 endif
 	echo "(FDF) COMPILING $@"
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile $(LIBRARIES)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile $(LIBRARIES_LINUX)
 ifeq ($(shell uname), Linux)
 	$(CC) $(CFLAGS) -Iinclude -Ilibft -Iminilibx-linux -O3 -c $< -o $@
 else
