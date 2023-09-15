@@ -11,14 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	translate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag);
-void	scale_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag);
-void	rotate_keyboard(t_mlx *mlx, t_map *map, t_fdf_flag *flag);
-
-void	translate_mouse(t_mlx *mlx, t_map *map, t_fdf_flag *flag);
-void	scale_mouse(t_mlx *mlx, t_map *map, t_fdf_flag *flag);
-void	rotate_mouse(t_mlx *mlx, t_map *map, t_fdf_flag *flag);
+#include "fdf_loop_hook.h"
 
 void	back_to_original_shape(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {

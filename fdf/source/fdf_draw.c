@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	draw_line(t_mlx *mlx, double p[2], double q[2], unsigned int color);
+#include "fdf_draw.h"
 
 static void	mlx_clear_img(t_img *img)
 {
@@ -45,24 +44,9 @@ unsigned int	select_color(t_map *map, int n1, int n2)
 
 void	select_point(t_mlx *mlx, t_map *map, int n)
 {
-	if (n + 3 < map->len - 1 && (n / 3) % map->col < map->col - 1)
-	{
-		draw_line(mlx, \
-			(double []){map->matrix[n], \
-						map->matrix[n + 1]}, \
-			(double []){map->matrix[n + 3], \
-						map->matrix[n + 4]}, \
-			select_color(map, n + 2, n + 5));
-	}
-	if (n + map->col * 3 < map->len - 1)
-	{
-		draw_line(mlx, \
-			(double []){map->matrix[n], \
-						map->matrix[n + 1]}, \
-			(double []){map->matrix[n + map->col * 3], \
-						map->matrix[n + map->col * 3 + 1]}, \
-			select_color(map, n + 2, n + map->col * 3 + 2));
-	}
+	draw_horitzontal_line(mlx, map, n);
+	draw_vertical_line(mlx, map, n);
+	draw_point(mlx, map, n);
 }
 
 void	draw_shape(t_mlx *mlx, t_map *map)

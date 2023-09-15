@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "fdf_draw.h"
 
-static void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -41,4 +42,47 @@ void	draw_line(t_mlx *mlx, double p[2], double q[2], unsigned int color)
 		p[1] += v[1];
 	}
 	ft_mlx_pixel_put(mlx->img, (int)q[0], (int)q[1], color);
+}
+
+void	draw_horitzontal_line(t_mlx *mlx, t_map *map, int n)
+{
+	if (n + 3 < map->len - 1 && (n / 3) % map->col < map->col - 1)
+	{
+		draw_line(mlx, \
+			(double []){map->matrix[n], \
+						map->matrix[n + 1]}, \
+			(double []){map->matrix[n + 3], \
+						map->matrix[n + 4]}, \
+			select_color(map, n + 2, n + 5));
+	}
+	if (map->issphere && ((n / 3) % map->col == 0))
+	{
+		draw_line(mlx, \
+			(double []){map->matrix[n], \
+						map->matrix[n + 1]}, \
+			(double []){map->matrix[n + map->col * 3 - 3], \
+						map->matrix[n + map->col * 3 - 2]}, \
+			select_color(map, n + 2, map->col * 3 - 1));
+	}
+}
+
+void	draw_vertical_line(t_mlx *mlx, t_map *map, int n)
+{
+	if (n + map->col * 3 < map->len - 1)
+	{
+		draw_line(mlx, \
+			(double []){map->matrix[n], \
+						map->matrix[n + 1]}, \
+			(double []){map->matrix[n + map->col * 3], \
+						map->matrix[n + map->col * 3 + 1]}, \
+			select_color(map, n + 2, n + map->col * 3 + 2));
+	}
+}
+
+void	draw_point(t_mlx *mlx, t_map *map, int n)
+{
+	ft_mlx_pixel_put(mlx->img, \
+						map->matrix[n], \
+						map->matrix[n + 1], \
+						map->color[n / 3]);
 }

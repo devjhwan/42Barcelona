@@ -17,7 +17,8 @@ OBJDIR=objs
 SRCS=fdf_free.c fdf_key_hook.c fdf_mouse_hook.c fdf_map.c fdf_matrix.c \
 	 fdf_quaternion.c fdf_quaternion2.c fdf_map2.c fdf_map3.c fdf_draw.c \
 	 fdf_map4.c fdf_loop_hook.c fdf_reshape.c fdf_spherical_perspective.c \
-	 fdf_draw2.c fdf_loop_hook2.c fdf_main.c fdf_loop_hook3.c
+	 fdf_draw2.c fdf_loop_hook2.c fdf_main.c fdf_loop_hook3.c \
+	 fdf_check_error.c fdf_check_error2.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
@@ -33,10 +34,9 @@ LIBRARIES=libft/libft.a minilibx_macos/libmlx.a
 EXTRA_FLAGS_LINUX=-Lminilibx-linux -lXext -lX11 -lm -lz
 LIBRARIES_LINUX=libft/libft.a minilibx-linux/libmlx.a
 
-all: $(OBJDIR) minilibx $(NAME)
+all: $(OBJDIR) minilibx libf $(NAME)
 
 $(NAME): $(OBJS) Makefile
-	make -C libft
 ifeq ($(shell uname), Linux)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBRARIES_LINUX) \
 		$(EXTRA_FLAGS_LINUX) $(INCLUDE) -o $@ 
@@ -45,7 +45,7 @@ else
 endif
 	echo "(FDF) COMPILING $@"
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
+$(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile $(LIBRARIES)
 ifeq ($(shell uname), Linux)
 	$(CC) $(CFLAGS) -Iinclude -Ilibft -Iminilibx-linux -O3 -c $< -o $@
 else
@@ -62,6 +62,9 @@ ifeq ($(shell uname), Linux)
 else
 	make -C minilibx_macos
 endif
+
+libf:
+	make -C libft
 
 clean:
 	make -C libft fclean
@@ -82,5 +85,5 @@ debug: all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re minilibx
+.PHONY: all clean fclean re minilibx libf debug
 .SILENT:

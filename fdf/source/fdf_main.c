@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "fdf_check_error.h"
 
 static t_img	*init_img(void *mlx)
 {
@@ -75,6 +76,8 @@ int	main(int argc, char **argv)
 	t_fdf_flag	flag;
 
 	if (argc != 2)
+		return (0);
+	if (!check_file_corruption(argv[1]))
 		return (0);
 	fdf_start(&mlx, &map, &flag, argv[1]);
 	mlx_hook(mlx.mlx_win, ON_KEYDOWN, KEY_PRESS, \
