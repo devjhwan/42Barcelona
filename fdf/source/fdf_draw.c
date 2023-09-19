@@ -34,19 +34,10 @@ static void	mlx_clear_img(t_img *img)
 	}
 }
 
-unsigned int	select_color(t_map *map, int n1, int n2)
-{
-	if (map->m_copy[n1] > map->m_copy[n2])
-		return (map->color[n1 / 3]);
-	else
-		return (map->color[n2 / 3]);
-}
-
 void	select_point(t_mlx *mlx, t_map *map, int n)
 {
 	draw_horitzontal_line(mlx, map, n);
 	draw_vertical_line(mlx, map, n);
-	draw_point(mlx, map, n);
 }
 
 void	draw_shape(t_mlx *mlx, t_map *map)
@@ -55,7 +46,9 @@ void	draw_shape(t_mlx *mlx, t_map *map)
 
 	mlx_clear_img(mlx->img);
 	mlx_clear_window(mlx->mlx, mlx->mlx_win);
-	if (map->matrix[(map->row * map->col - map->row) * 3 + 2] > 0)
+	if (map->len == 3)
+		draw_point(mlx, map, 0);
+	else if (map->matrix[(map->row * map->col - map->row) * 3 + 2] > 0)
 	{
 		n = 0;
 		while (n < map->len)

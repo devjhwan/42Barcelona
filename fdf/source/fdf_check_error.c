@@ -39,7 +39,9 @@ int	check_regex(const char *value)
 		if (value[i + 1] != '0' && value[i + 2] != 'x')
 			return (errmsg(REGEX_ERR), 0);
 		i += 3;
-		while (ft_isdigit(value[i]) || (value[i] >= 'A' && value[i] <= 'F'))
+		while (ft_isdigit(value[i]) || \
+							(value[i] >= 'A' && value[i] <= 'F') || \
+							(value[i] >= 'a' && value[i] <= 'f'))
 			i++;
 		if (value[i] == '\0')
 			return (1);

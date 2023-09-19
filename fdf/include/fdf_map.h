@@ -24,8 +24,6 @@
 # define MEGABYTE 1048576
 # define KILOBYTE 1024
 
-# define WHITE 0x00FFFFFF
-
 typedef struct s_transform
 {
 	double	position[3];
@@ -41,8 +39,8 @@ typedef struct s_map
 	double			*matrix;
 	double			*m_copy;
 	unsigned int	*color;
-	unsigned int	*c_copy;
 	int				issphere;
+	int				color_set;
 	t_transform		transform;
 }	t_map;
 

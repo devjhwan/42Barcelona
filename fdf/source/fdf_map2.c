@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf_map.h"
+#define WHITE 0xFFFFFF
 
 static void	fill_point(t_map *map, char **line_sep, int *arr)
 {

@@ -12,6 +12,7 @@
 
 #include "fdf.h"
 #include "fdf_loop_hook.h"
+#include "fdf_color.h"
 
 void	back_to_original_shape(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
@@ -35,6 +36,17 @@ void	set_to_spherical_perspective(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 	}
 }
 
+void	change_color(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
+{
+	if (flag->key == FLAG_C)
+	{
+		map->color_set = (++map->color_set) % COLOR_SET_COUNT;
+		ft_printf("color_set = %d\n", map->color_set);
+		draw_shape(mlx, map);
+		flag->key = 0;
+	}
+}
+
 int	render_frame_hook(void *fdf_pack[3])
 {
 	t_mlx		*mlx;
@@ -52,5 +64,6 @@ int	render_frame_hook(void *fdf_pack[3])
 	rotate_mouse(mlx, map, flag);
 	back_to_original_shape(mlx, map, flag);
 	set_to_spherical_perspective(mlx, map, flag);
+	change_color(mlx, map, flag);
 	return (0);
 }

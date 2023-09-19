@@ -15,10 +15,10 @@
 
 typedef struct s_fdf_flag
 {
-	unsigned char	key;
-	unsigned char	arrow;
-	unsigned char	mouse;
-	int				mouse_v[2];
+	unsigned short int	key;
+	unsigned char		arrow;
+	unsigned char		mouse;
+	int					mouse_v[2];
 }	t_fdf_flag;
 typedef unsigned short int	t_byte;
 
@@ -53,6 +53,7 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define FLAG_Z 32
 # define FLAG_Q 64
 # define FLAG_H 128
+# define FLAG_C 256
 # define FLAG_UP 1
 # define FLAG_DOWN 2
 # define FLAG_LEFT 4
@@ -69,6 +70,7 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define MOUSE_SCROLL_UP 5
 
 /*LINUX KEY CODES*/
+/*
 # define KEY_T 116
 # define KEY_UP 65362
 # define KEY_DOWN 65364
@@ -82,9 +84,9 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_R 114
 # define KEY_Q 113
 # define KEY_H 104
+*/
 
 /*MAC KEY CODES*/
-/*
 # define KEY_Q 12
 # define KEY_W 13
 # define KEY_E 14
@@ -126,5 +128,4 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_DOWN 125
 # define KEY_UP 126
 # define KEY_EXIT 53
-*/
 #endif

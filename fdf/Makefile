@@ -18,7 +18,7 @@ SRCS=fdf_free.c fdf_key_hook.c fdf_mouse_hook.c fdf_map.c fdf_matrix.c \
 	 fdf_quaternion.c fdf_quaternion2.c fdf_map2.c fdf_map3.c fdf_draw.c \
 	 fdf_map4.c fdf_loop_hook.c fdf_reshape.c fdf_spherical_perspective.c \
 	 fdf_draw2.c fdf_loop_hook2.c fdf_main.c fdf_loop_hook3.c \
-	 fdf_check_error.c fdf_check_error2.c
+	 fdf_check_error.c fdf_check_error2.c fdf_draw3.c fdf_color.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
@@ -45,7 +45,7 @@ else
 endif
 	echo "(FDF) COMPILING $@"
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile $(LIBRARIES_LINUX)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile $(LIBRARIES)
 ifeq ($(shell uname), Linux)
 	$(CC) $(CFLAGS) -Iinclude -Ilibft -Iminilibx-linux -O3 -c $< -o $@
 else

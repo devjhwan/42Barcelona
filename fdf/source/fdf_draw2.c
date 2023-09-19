@@ -12,8 +12,9 @@
 
 #include "fdf.h"
 #include "fdf_draw.h"
+#include "fdf_color.h"
 
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	ft_mlx_pixel_put(t_img *img, int x, int y, unsigned int color)
 {
 	char	*dst;
 
@@ -25,23 +26,30 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_line(t_mlx *mlx, double p[2], double q[2], unsigned int color)
+void	draw_line(t_mlx *mlx, double p[2], double q[2], unsigned int *color)
 {
 	double	v[2];
 	double	v_n;
+	double	k[2];
+	double	ratio;
 
 	v[0] = q[0] - p[0];
 	v[1] = q[1] - p[1];
 	v_n = sqrt(v[0] * v[0] + v[1] * v[1]);
 	v[0] /= v_n;
 	v[1] /= v_n;
-	while (fabs(p[0] - q[0]) > 0.5 || fabs(p[1] - q[1]) > 0.5)
+	k[0] = p[0];
+	k[1] = p[1];
+	while (fabs(k[0] - q[0]) > 0.5 || fabs(k[1] - q[1]) > 0.5)
 	{
-		ft_mlx_pixel_put(mlx->img, (int)p[0], (int)p[1], color);
-		p[0] += v[0];
-		p[1] += v[1];
+		ratio = (sqrt((k[0] - p[0]) * (k[0] - p[0]) + \
+						(k[1] - p[1]) * (k[1] - p[1])) / v_n);
+		ft_mlx_pixel_put(mlx->img, (int)k[0], (int)k[1], \
+						interpolate_color(ratio, color[0], color[1]));
+		k[0] += v[0];
+		k[1] += v[1];
 	}
-	ft_mlx_pixel_put(mlx->img, (int)q[0], (int)q[1], color);
+	ft_mlx_pixel_put(mlx->img, (int)q[0], (int)q[1], color[1]);
 }
 
 void	draw_horitzontal_line(t_mlx *mlx, t_map *map, int n)
@@ -53,7 +61,7 @@ void	draw_horitzontal_line(t_mlx *mlx, t_map *map, int n)
 						map->matrix[n + 1]}, \
 			(double []){map->matrix[n + 3], \
 						map->matrix[n + 4]}, \
-			select_color(map, n + 2, n + 5));
+			select_color(map, n, n + 3));
 	}
 	if (map->issphere && ((n / 3) % map->col == 0))
 	{
@@ -62,7 +70,7 @@ void	draw_horitzontal_line(t_mlx *mlx, t_map *map, int n)
 						map->matrix[n + 1]}, \
 			(double []){map->matrix[n + map->col * 3 - 3], \
 						map->matrix[n + map->col * 3 - 2]}, \
-			select_color(map, n + 2, map->col * 3 - 1));
+			select_color(map, n, map->col * 3 - 3));
 	}
 }
 
@@ -75,7 +83,7 @@ void	draw_vertical_line(t_mlx *mlx, t_map *map, int n)
 						map->matrix[n + 1]}, \
 			(double []){map->matrix[n + map->col * 3], \
 						map->matrix[n + map->col * 3 + 1]}, \
-			select_color(map, n + 2, n + map->col * 3 + 2));
+			select_color(map, n, n + map->col * 3));
 	}
 }
 
