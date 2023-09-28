@@ -44,7 +44,7 @@ int	init_info(int argc, char **argv, t_info *info)
 	info->fork_status = (int *)malloc(sizeof(int) * info->nb_philo);
 	if (info->fork_status == NULL)
 		return (phi_perror(MALLOC_FAIL), 1);
-	memset(info->fork_status, -1, sizeof(int) * info->nb_philo);
+	memset(info->fork_status, 0, sizeof(int) * info->nb_philo);
 	info->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * \
 											info->nb_philo);
 	if (info->fork == NULL)
@@ -52,30 +52,38 @@ int	init_info(int argc, char **argv, t_info *info)
 	i = 0;
 	while (i < info->nb_philo)
 	{
-		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
+		if (pthread_mutex_init(&info->fork[i++], NULL) != 0)
 			return (phi_perror(MUTEX_ERROR), 1);
-		info->fork_status[i++] = 0;
 	}
 	if (pthread_mutex_init(&info->die, NULL) != 0)
 		return (phi_perror(MUTEX_ERROR), 1);
-	info->die_status = 1;
+	if (pthread_mutex_init(&info->print, NULL) != 0)
+		return (phi_perror(MUTEX_ERROR), 1);
 	return (0);
 }
 
-void	free_info(t_info *info)
+int	init_queue(t_info *info)
 {
 	int	i;
 
+	info->queue = (int *)malloc(sizeof(int) * info->nb_philo);
+	if (info->queue == NULL)
+		return (phi_perror(MALLOC_FAIL), 1);
 	i = 0;
-	if (info->fork_status != NULL && info->fork != NULL)
+	info->turn = 0;
+	while (i < info->nb_philo)
 	{
-		while (i < info->nb_philo && info->fork_status[i] >= 0)
-			pthread_mutex_destroy(&info->fork[i++]);
+		info->queue[info->turn++] = i;
+		i += 2;
 	}
-	if (info->die_status == 1)
-		pthread_mutex_destroy(&info->die);
-	free(info->fork);
-	free(info->fork_status);
+	i = 1;
+	while (i < info->nb_philo)
+	{
+		info->queue[info->turn++] = i;
+		i += 2;
+	}
+	info->turn = 0;
+	return (0);
 }
 
 int	init_philo(t_philo **philo, t_info *info)
@@ -98,9 +106,4 @@ int	init_philo(t_philo **philo, t_info *info)
 		i++;
 	}
 	return (0);
-}
-
-void	free_philo(t_philo *philo)
-{
-	free(philo);
 }

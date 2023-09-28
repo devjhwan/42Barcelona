@@ -57,17 +57,22 @@ void	draw_horitzontal_line(t_mlx *mlx, t_map *map, int n)
 	if (n + 3 < map->len - 1 && (n / 3) % map->col < map->col - 1)
 	{
 		draw_line(mlx, \
-			(double []){map->matrix[n], \
-						map->matrix[n + 1]}, \
-			(double []){map->matrix[n + 3], \
-						map->matrix[n + 4]}, \
+			(double []){map->matrix[n], map->matrix[n + 1]}, \
+			(double []){map->matrix[n + 3], map->matrix[n + 4]}, \
+			select_color(map, n, n + 3));
+	}
+	if (n + 3 < map->len - 1 && (n / 3) % map->col == map->col - 1)
+	{
+		draw_line(mlx, \
+			(double []){map->matrix[n], map->matrix[n + 1]}, \
+			(double []){map->matrix[n - map->col * 3 + 3], \
+						map->matrix[n - map->col * 3 + 4]}, \
 			select_color(map, n, n + 3));
 	}
 	if (map->issphere && ((n / 3) % map->col == 0))
 	{
 		draw_line(mlx, \
-			(double []){map->matrix[n], \
-						map->matrix[n + 1]}, \
+			(double []){map->matrix[n], map->matrix[n + 1]}, \
 			(double []){map->matrix[n + map->col * 3 - 3], \
 						map->matrix[n + map->col * 3 - 2]}, \
 			select_color(map, n, map->col * 3 - 3));
@@ -79,8 +84,7 @@ void	draw_vertical_line(t_mlx *mlx, t_map *map, int n)
 	if (n + map->col * 3 < map->len - 1)
 	{
 		draw_line(mlx, \
-			(double []){map->matrix[n], \
-						map->matrix[n + 1]}, \
+			(double []){map->matrix[n], map->matrix[n + 1]}, \
 			(double []){map->matrix[n + map->col * 3], \
 						map->matrix[n + map->col * 3 + 1]}, \
 			select_color(map, n, n + map->col * 3));
@@ -90,7 +94,7 @@ void	draw_vertical_line(t_mlx *mlx, t_map *map, int n)
 void	draw_point(t_mlx *mlx, t_map *map, int n)
 {
 	ft_mlx_pixel_put(mlx->img, \
-						map->matrix[n], \
-						map->matrix[n + 1], \
-						map->color[n / 3]);
+					map->matrix[n], \
+					map->matrix[n + 1], \
+					map->color[n / 3]);
 }

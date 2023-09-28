@@ -18,9 +18,8 @@ static int	philo_dies(t_philo *philo, t_info *info)
 	if (get_current_time(philo->offset) - philo->t_last_eat >= info->t_die && \
 		info->exit_status == 0)
 	{
-		printf("[%d ms] philo nb %d died\n", \
-			get_current_time(philo->offset), philo->nb);
-		info->exit_status = 1;
+		philo->state = DEAD;
+		print_action(philo, info);
 		pthread_mutex_unlock(&info->die);
 		return (1);
 	}
@@ -35,25 +34,28 @@ static void	philo_think(t_philo *philo, t_info *info)
 		return ;
 	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(philo->r_fork);
-	if (info->fork_status[philo->nb] == 0 ||
+	if (info->exit_status == 0 && \
+		info->queue[info->turn] == philo->nb && \
+		info->fork_status[philo->nb] == 0 &&
 		info->fork_status[(philo->nb + 1) % info->nb_philo] == 0)
 	{
+		info->turn = (info->turn + 1) % info->nb_philo;
 		info->fork_status[philo->nb] = 1;
 		info->fork_status[(philo->nb + 1) % info->nb_philo] = 1;
 		philo->state = EATING;
 		philo->t_last_eat = get_current_time(philo->offset);
-		printf("[%d ms] philo nb %d starts to %dth eat\n", \
-			get_current_time(philo->offset), philo->nb, philo->eat + 1);
+		print_action(philo, info);
 	}
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
 	if (philo->state == THINKING)
-		usleep(10);
+		usleep(100);
 }
 
 static void	philo_eat(t_philo *philo, t_info *info)
 {
-	if (get_current_time(philo->offset) - philo->t_last_eat >= info->t_eat)
+	if (info->exit_status == 0 && \
+		get_current_time(philo->offset) - philo->t_last_eat >= info->t_eat)
 	{
 		pthread_mutex_lock(philo->l_fork);
 		pthread_mutex_lock(philo->r_fork);
@@ -64,25 +66,24 @@ static void	philo_eat(t_philo *philo, t_info *info)
 			info->total_eat += 1;
 		philo->state = SLEEPING;
 		philo->t_last_sleep = get_current_time(philo->offset);
-		printf("[%d ms] philo nb %d starts to sleep\n", \
-			get_current_time(philo->offset), philo->nb);
+		print_action(philo, info);
 		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
 	}
 	if (philo->state == EATING)
-		usleep(10);
+		usleep(100);
 }
 
 static void	philo_sleep(t_philo *philo, t_info *info)
 {
-	if (get_current_time(philo->offset) - philo->t_last_sleep >= info->t_sleep)
+	if (info->exit_status == 0 && \
+		get_current_time(philo->offset) - philo->t_last_sleep >= info->t_sleep)
 	{
-		printf("[%d ms] philo nb %d starts to think\n", \
-			get_current_time(philo->offset), philo->nb);
 		philo->state = THINKING;
+		print_action(philo, info);
 	}
 	if (philo->state == SLEEPING)
-		usleep(10);
+		usleep(100);
 }
 
 void	*thread_main(void *var)

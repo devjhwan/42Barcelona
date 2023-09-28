@@ -27,3 +27,32 @@ void	phi_perror(int errno)
 	else
 		printf("Unknown error\n");
 }
+
+void	print_action(t_philo *philo, t_info *info)
+{
+	int	ret;
+
+	pthread_mutex_lock(&info->print);
+	if (info->exit_status == 0)
+	{
+		if (philo->state == THINKING)
+			ret = printf("[%d ms] philo nb %d starts to think\n", \
+				get_current_time(philo->offset), philo->nb);
+		else if (philo->state == SLEEPING)
+			ret = printf("[%d ms] philo nb %d starts to sleep\n", \
+				get_current_time(philo->offset), philo->nb);
+		else if (philo->state == EATING)
+			ret = printf("[%d ms] philo nb %d starts to %dth eat\n", \
+				get_current_time(philo->offset), philo->nb, philo->eat + 1);
+		else
+			ret = printf("[%d ms] philo nb %d died\n", \
+				get_current_time(philo->offset), philo->nb);
+		if (ret < 0 || philo->state == DEAD)
+		{
+			if (ret < 0)
+				phi_perror(PRINT_ERROR);
+			info->exit_status = 1;
+		}
+	}
+	pthread_mutex_unlock(&info->print);
+}

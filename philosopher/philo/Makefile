@@ -15,7 +15,8 @@ PROJECT_NAME=PHILOSOPHER
 
 SRCDIR=.
 OBJDIR=objs
-SRCS=phi_atoi.c phi_msg.c phi_main.c phi_thread.c phi_utils.c phi_init.c
+SRCS=phi_atoi.c phi_msg.c phi_main.c phi_thread.c phi_utils.c phi_init.c \
+	 phi_free.c
 OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 

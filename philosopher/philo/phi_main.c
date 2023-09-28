@@ -50,6 +50,8 @@ int	main(int argc, char **argv)
 	philo = NULL;
 	if (init_info(argc, argv, &info) == 1)
 		return (free_info(&info), 0);
+	if (init_queue(&info) == 1)
+		return (free_info(&info), 0);
 	if (init_philo(&philo, &info) == 1)
 		return (free_info(&info), free_philo(philo), 0);
 	create_threads(philo, &info);

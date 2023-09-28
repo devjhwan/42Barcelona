@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosofer.h                                       :+:      :+:    :+:   */
+/*   phi_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junghwle <junghwle@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/24 20:48:25 by junghwle          #+#    #+#             */
-/*   Updated: 2023/09/24 20:48:27 by junghwle         ###   ########.fr       */
+/*   Created: 2023/09/28 21:29:33 by junghwle          #+#    #+#             */
+/*   Updated: 2023/09/28 21:29:35 by junghwle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOFER_H
-# define PHILOSOFER_H
+#include "philosopher.h"
 
-# include <stdio.h>
-# include <stdlib.h>
+void	free_info(t_info *info)
+{
+	int	i;
 
-# define INT_MAX 2147483647
+	i = 0;
+	if (info->fork != NULL)
+	{
+		while (i < info->nb_philo)
+			pthread_mutex_destroy(&info->fork[i++]);
+	}
+	pthread_mutex_destroy(&info->die);
+	pthread_mutex_destroy(&info->print);
+	free(info->fork_status);
+	free(info->fork);
+	free(info->queue);
+}
 
-int	phi_isdigit(const char c);
-int	phi_atoi(const char *str, int *num);
-
-void	negative_number(void);
-void	bad_input_format(void);
-void	number_out_of_max_range(void);
-
-#endif
+void	free_philo(t_philo *philo)
+{
+	free(philo);
+}

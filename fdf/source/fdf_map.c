@@ -28,6 +28,8 @@ static int	elem_count(char *line, int sep)
 			count++;
 			while (line[i] != sep && line[i] != '\0')
 				i++;
+			if (line[i] == '\0')
+				break;
 		}
 		i++;
 	}
