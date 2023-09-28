@@ -31,6 +31,7 @@ void	create_threads(t_philo *philo, t_info *info)
 	}
 	if (i < info->nb_philo)
 		philo[i].nb = -1;
+	info->start = 1;
 }
 
 void	wait_threads(t_philo *philo, t_info *info)
@@ -50,7 +51,7 @@ int	main(int argc, char **argv)
 	philo = NULL;
 	if (init_info(argc, argv, &info) == 1)
 		return (free_info(&info), 0);
-	if (init_queue(&info) == 1)
+	if (init_turn(&info) == 1)
 		return (free_info(&info), 0);
 	if (init_philo(&philo, &info) == 1)
 		return (free_info(&info), free_philo(philo), 0);

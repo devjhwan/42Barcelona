@@ -35,11 +35,11 @@ static void	philo_think(t_philo *philo, t_info *info)
 	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(philo->r_fork);
 	if (info->exit_status == 0 && \
-		info->queue[info->turn] == philo->nb && \
+		info->turn[philo->nb] == 1 && \
 		info->fork_status[philo->nb] == 0 &&
 		info->fork_status[(philo->nb + 1) % info->nb_philo] == 0)
 	{
-		info->turn = (info->turn + 1) % info->nb_philo;
+		info->turn[philo->nb] = 0;
 		info->fork_status[philo->nb] = 1;
 		info->fork_status[(philo->nb + 1) % info->nb_philo] = 1;
 		philo->state = EATING;
@@ -61,6 +61,7 @@ static void	philo_eat(t_philo *philo, t_info *info)
 		pthread_mutex_lock(philo->r_fork);
 		info->fork_status[philo->nb] = 0;
 		info->fork_status[(philo->nb + 1) % info->nb_philo] = 0;
+		info->turn[(philo->nb + 1) % info->nb_philo] = 1; 
 		philo->eat += 1;
 		if (philo->eat == info->nb_eat)
 			info->total_eat += 1;
@@ -93,6 +94,8 @@ void	*thread_main(void *var)
 
 	philo = (t_philo *)var;
 	info = (t_info *)philo->info;
+	while (info->start == 0)
+		;
 	gettimeofday(&philo->offset, NULL);
 	while (info->exit_status == 0 && \
 			info->total_eat != info->nb_philo)

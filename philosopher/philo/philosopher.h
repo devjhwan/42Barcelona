@@ -30,9 +30,9 @@ typedef struct s_info
 	int				t_sleep;
 	int				nb_eat;
 	int				total_eat;
+	int				start;
 	int				exit_status;
-	int				turn;
-	int				*queue;
+	int				*turn;
 	int				*fork_status;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	die;
@@ -61,7 +61,7 @@ typedef struct s_philo
 int		phi_atoi(const char *str, int *num);
 int		check_arg(int argc, char **argv, int *info_arr);
 int		init_info(int argc, char **argv, t_info *info);
-int		init_queue(t_info *info);
+int		init_turn(t_info *info);
 int		init_philo(t_philo **philo, t_info *info);
 void	free_info(t_info *info);
 void	free_philo(t_philo *philo);

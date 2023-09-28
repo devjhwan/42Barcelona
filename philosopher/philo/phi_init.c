@@ -62,27 +62,20 @@ int	init_info(int argc, char **argv, t_info *info)
 	return (0);
 }
 
-int	init_queue(t_info *info)
+int	init_turn(t_info *info)
 {
 	int	i;
 
-	info->queue = (int *)malloc(sizeof(int) * info->nb_philo);
-	if (info->queue == NULL)
+	info->turn = (int *)malloc(sizeof(int) * info->nb_philo);
+	if (info->turn == NULL)
 		return (phi_perror(MALLOC_FAIL), 1);
+	memset(info->turn, 0, sizeof(int) * info->nb_philo);
 	i = 0;
-	info->turn = 0;
-	while (i < info->nb_philo)
+	while (i < info->nb_philo - 1)
 	{
-		info->queue[info->turn++] = i;
+		info->turn[i] = 1;
 		i += 2;
 	}
-	i = 1;
-	while (i < info->nb_philo)
-	{
-		info->queue[info->turn++] = i;
-		i += 2;
-	}
-	info->turn = 0;
 	return (0);
 }
 

@@ -26,7 +26,7 @@ void	free_info(t_info *info)
 	pthread_mutex_destroy(&info->print);
 	free(info->fork_status);
 	free(info->fork);
-	free(info->queue);
+	free(info->turn);
 }
 
 void	free_philo(t_philo *philo)
