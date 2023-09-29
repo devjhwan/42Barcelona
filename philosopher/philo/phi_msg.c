@@ -36,16 +36,16 @@ void	print_action(t_philo *philo, t_info *info)
 	if (info->exit_status == 0)
 	{
 		if (philo->state == THINKING)
-			ret = printf("[%d ms] philo nb %d starts to think\n", \
+			ret = printf("[%d ms] philo nb %3d starts to think\n", \
 				get_current_time(philo->offset), philo->nb);
 		else if (philo->state == SLEEPING)
-			ret = printf("[%d ms] philo nb %d starts to sleep\n", \
+			ret = printf("[%d ms] philo nb %3d starts to sleep\n", \
 				get_current_time(philo->offset), philo->nb);
 		else if (philo->state == EATING)
-			ret = printf("[%d ms] philo nb %d starts to %dth eat\n", \
+			ret = printf("[%d ms] philo nb %3d starts to %dth eat\n", \
 				get_current_time(philo->offset), philo->nb, philo->eat + 1);
 		else
-			ret = printf("[%d ms] philo nb %d died\n", \
+			ret = printf("[%d ms] philo nb %3d died\n", \
 				get_current_time(philo->offset), philo->nb);
 		if (ret < 0 || philo->state == DEAD)
 		{
