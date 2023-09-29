@@ -39,9 +39,11 @@ static void	philo_think(t_philo *philo, t_info *info)
 		info->fork_status[philo->nb] == 0 &&
 		info->fork_status[(philo->nb + 1) % info->nb_philo] == 0)
 	{
+		philo->state = TAKING_FORK;
 		info->turn[philo->nb] = 0;
 		info->fork_status[philo->nb] = 1;
 		info->fork_status[(philo->nb + 1) % info->nb_philo] = 1;
+		print_action(philo, info);
 		philo->state = EATING;
 		philo->t_last_eat = get_current_time(philo->offset);
 		print_action(philo, info);

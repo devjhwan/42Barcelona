@@ -39,10 +39,11 @@ typedef struct s_info
 	pthread_mutex_t	print;
 }	t_info;
 
-# define THINKING 0
-# define EATING 1
-# define SLEEPING 2
-# define DEAD 3
+# define TAKING_FORK 0
+# define THINKING 1
+# define EATING 2
+# define SLEEPING 3
+# define DEAD 4
 
 typedef struct s_philo
 {

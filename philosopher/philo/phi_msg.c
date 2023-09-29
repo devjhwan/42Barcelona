@@ -28,6 +28,28 @@ void	phi_perror(int errno)
 		printf("Unknown error\n");
 }
 
+static int	print_action2(t_philo *philo)
+{
+	int	ret;
+
+	if (philo->state == TAKING_FORK)
+		ret = printf("%d %d has taken a fork\n", \
+			get_current_time(philo->offset), philo->nb);
+	else if (philo->state == THINKING)
+		ret = printf("%d %d is thinking\n", \
+			get_current_time(philo->offset), philo->nb);
+	else if (philo->state == SLEEPING)
+		ret = printf("%d %d is sleeping\n", \
+			get_current_time(philo->offset), philo->nb);
+	else if (philo->state == EATING)
+		ret = printf("%d %d is eating\n", \
+			get_current_time(philo->offset), philo->nb);
+	else
+		ret = printf("%d %d died\n", \
+			get_current_time(philo->offset), philo->nb);
+	return (ret);
+}
+
 void	print_action(t_philo *philo, t_info *info)
 {
 	int	ret;
@@ -35,22 +57,12 @@ void	print_action(t_philo *philo, t_info *info)
 	pthread_mutex_lock(&info->print);
 	if (info->exit_status == 0)
 	{
-		if (philo->state == THINKING)
-			ret = printf("[%d ms] philo nb %3d starts to think\n", \
-				get_current_time(philo->offset), philo->nb);
-		else if (philo->state == SLEEPING)
-			ret = printf("[%d ms] philo nb %3d starts to sleep\n", \
-				get_current_time(philo->offset), philo->nb);
-		else if (philo->state == EATING)
-			ret = printf("[%d ms] philo nb %3d starts to %dth eat\n", \
-				get_current_time(philo->offset), philo->nb, philo->eat + 1);
-		else
-			ret = printf("[%d ms] philo nb %3d died\n", \
-				get_current_time(philo->offset), philo->nb);
-		if (ret < 0 || philo->state == DEAD)
+		ret = print_action2(philo);
+		if (philo->state == DEAD)
+			info->exit_status = 1;
+		if (ret < 0)
 		{
-			if (ret < 0)
-				phi_perror(PRINT_ERROR);
+			phi_perror(PRINT_ERROR);
 			info->exit_status = 1;
 		}
 	}
