@@ -40,7 +40,7 @@ void	change_color(t_mlx *mlx, t_map *map, t_fdf_flag *flag)
 {
 	if (flag->key == FLAG_C)
 	{
-		map->color_set = (++map->color_set) % COLOR_SET_COUNT;
+		map->color_set = (map->color_set + 1) % COLOR_SET_COUNT;
 		ft_printf("color_set = %d\n", map->color_set);
 		draw_shape(mlx, map);
 		flag->key = 0;

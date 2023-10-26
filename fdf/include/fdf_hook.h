@@ -70,7 +70,6 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define MOUSE_SCROLL_UP 5
 
 /*LINUX KEY CODES*/
-/*
 # define KEY_T 116
 # define KEY_UP 65362
 # define KEY_DOWN 65364
@@ -84,9 +83,10 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_R 114
 # define KEY_Q 113
 # define KEY_H 104
-*/
+# define KEY_C 99
 
 /*MAC KEY CODES*/
+/*
 # define KEY_Q 12
 # define KEY_W 13
 # define KEY_E 14
@@ -127,5 +127,5 @@ int	render_frame_hook(void *fdf_pack[3]);
 # define KEY_RIGHT 124
 # define KEY_DOWN 125
 # define KEY_UP 126
-# define KEY_EXIT 53
+# define KEY_EXIT 53*/
 #endif

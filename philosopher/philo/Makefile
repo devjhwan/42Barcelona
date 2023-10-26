@@ -21,7 +21,7 @@ OBJS=$(patsubst %.c, $(OBJDIR)/%.o, $(SRCS))
 DEPS=$(OBJS:.o=.d)
 
 INCLUDE=-I.
-CC=cc
+CC=gcc -fsanitize=thread
 CFLAGS=-Wall -Werror -Wextra
 DEPFLAGS=-MMD
 COMPILE.c=$(CC) $(DEPFLAGS) $(CFLAGS) $(INCLUDE) -c -o
